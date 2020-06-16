@@ -48,7 +48,7 @@
             5.4.1.3. Sistema operativo
             5.4.1.4. Otros
         5.4.2. Implementación de la arquitectura del sistema
-        5.4.3. Implementación de la arquitectura de subsistema
+        5.4.3. Implementación de la arquitectura de subsistemas
 6. Marco teórico
 7. Desarrollo
 8. Resultados
