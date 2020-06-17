@@ -7,6 +7,8 @@ use Auth;
 use Carbon\Carbon;
 use Exception;
 use App\User;
+use Image;
+use Illuminate\Support\Facades\Response;
 
 class AuthController extends Controller
 {
@@ -43,6 +45,11 @@ class AuthController extends Controller
         $user->maternal_surname=$request->maternal_surname;
         $user->birthday=$request->birthday;
         $user->email=$request->email;
+
+        $image=Image::make(base_path('public/images/pp-default.jpeg'));
+        Response::make($image->encode('jpeg'));
+        $user->profile_picture=$image;
+
         $user->password=bcrypt($request->password);
         $user->created_at=Carbon::now();
         $user->updated_at=Carbon::now();
@@ -56,6 +63,20 @@ class AuthController extends Controller
     public function logout(){
         Auth::logout();
         return redirect()->route('authenticate');
+    }
+
+    public function changePassword(Request $request){
+        $request->validate([
+            'old_password' => 'required',
+            'password' => 'required|confirmed',
+        ]);
+        $user=Auth::user();
+        if (Auth::attempt(['email'=>$user->email,'password'=>$request->old_password])) {
+            $user->password=bcrypt($request->password);
+            $user->save();
+        }else{
+            throw AuthController::newError("old_password","Contraseña incorrecta.");
+        }
     }
 
     public static function newError($key,$value){

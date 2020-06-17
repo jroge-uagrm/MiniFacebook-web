@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Exception;
+use App\User;
+
+use Image;
+use Illuminate\Support\Facades\Response;
 
 class HomeController extends Controller
 {
@@ -33,25 +37,37 @@ class HomeController extends Controller
             'maternal_surname' => 'required',
             'birthday' => 'required|date',
             'email' => 'required|email',
-            'old_password' => 'required',
-            'password' => 'required|confirmed',
         ]);
         $user=Auth::user();
-        if (Auth::attempt(['email'=>$user->email,'password'=>$request->old_password])) {
-            try{
-                $user->names=$request->names;
-                $user->paternal_surname=$request->paternal_surname;
-                $user->maternal_surname=$request->maternal_surname;
-                $user->birthday=$request->birthday;
-                $user->email=$request->email;
-                $user->password=bcrypt($request->password);
-                $user->save();
-                return redirect()->route('home');
-            }catch(Exception $e){
-                throw AuthController::newError("email","Este correo ya ha sido registrado.");
+        try{
+            $user->names=$request->names;
+            $user->paternal_surname=$request->paternal_surname;
+            $user->maternal_surname=$request->maternal_surname;
+            $user->birthday=$request->birthday;
+            $user->email=$request->email;
+            $response="Se han actualizado tus datos.";
+            if($request->hasFile('profile_picture')){
+                $profile_picture=$request->profile_picture;
+                $image=Image::make($profile_picture);
+                Response::make($image->encode('jpeg'));
+                $user->profile_picture=$image;
+                $response="Se ha guardado tu nueva foto de perfil.";
             }
-        }else{
-            throw AuthController::newError("old_password","Contraseña incorrecta.");
+            $user->save();
+            return redirect()->back()->with(
+                'success',
+                $response
+            );
+        }catch(Exception $e){
+            throw AuthController::newError("email","Este correo ya ha sido registrado.");
         }
+    }
+
+    public function fetch_image($userId){
+        $user=User::find($userId);
+        $image_file=Image::make($user->profile_picture);
+        $response=Response::make($image_file->encode('jpeg'));
+        $response->header('Content-Type','image/jpeg');
+        return $response;
     }
 }

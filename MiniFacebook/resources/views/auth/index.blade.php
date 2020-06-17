@@ -95,12 +95,12 @@
                             </div>
                             <div class="form-group">
                                 <label>Nueva contraseña</label>
-                                <input type="password" name="password" class="form-control" value="{{old('password')}">
+                                <input type="password" name="password" class="form-control" value="{{old('password')}}">
                                 {!!$errors->first('password','<small class="text-white font-weight-bold">:message</small>')!!}
                             </div>
                             <div class="form-group">
                                 <label>Confirma tu nueva contraseña</label>
-                                <input type="password" name="password_confirmation" class="form-control" value="{{old('password_confirmation')}">
+                                <input type="password" name="password_confirmation" class="form-control" value="{{old('password_confirmation')}}">
                                 {!!$errors->first('password','<small
                                     class="text-white font-weight-bold text-small">:message</small>')!!}
                             </div>

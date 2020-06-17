@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('paternal_surname');
             $table->string('maternal_surname');
             $table->date('birthday');
+            $table->binary('profile_picture')->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();

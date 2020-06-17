@@ -20,6 +20,14 @@
 </head>
 
 <body class="mh-100 h-100">
+  @if(session()->has('success'))
+  <div class="alert alert-success alert-dismissible fade show col-4 mx-auto fixed-top" role="alert">
+    {{session()->get('success')}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  @endif
   @section('body')
   @show
 

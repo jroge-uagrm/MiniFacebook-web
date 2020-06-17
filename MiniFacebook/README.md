@@ -20,3 +20,4 @@ CU8: Estadisticas
 
 
 ```composer remove pusher/pusher-http-laravel```
+```composer require intervention/image```

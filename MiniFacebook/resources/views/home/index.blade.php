@@ -16,6 +16,9 @@
             </li>
         </ul>
         <ul class="navbar-nav">
+            <li class="nav-item mx-3">
+                <img src="store_image/fetch_image/{{$user->id}}" width="30" height="30">
+            </li>
             <li class="nav-item">
                 <a href="#" class="text-dark">
                     {{$user->names}}
@@ -44,7 +47,7 @@
     </div>
 </nav>
 <div class="continer h-75">
-    <div class="row h-100">
+    <div class="row h-100 w-100">
         <div class="col-3">
             Amigos encontrados
         </div>
