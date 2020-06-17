@@ -9,8 +9,11 @@ Route::post('register','AuthController@register');
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('home','HomeController@index');
+    Route::get('home','HomeController@index')->name('home');
 
     Route::get('logout','AuthController@logout');
+
+    Route::get('me','HomeController@read');
+    Route::put('me','HomeController@update');
 
 });

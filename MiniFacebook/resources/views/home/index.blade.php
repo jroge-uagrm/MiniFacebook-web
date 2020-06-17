@@ -17,7 +17,7 @@
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="/profile/me" class="text-dark">
+                <a href="#" class="text-dark">
                     {{$user->names}}
                 </a>
             </li>
@@ -36,7 +36,7 @@
                     <img src="/images/icon-arrow-down.png" width="30" height="30">
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="profile">Configurar perfil</a>
+                    <a class="dropdown-item" href="me">Configurar perfil</a>
                     <a class="dropdown-item" href="logout">Cerrar sesión</a>
                 </div>
             </li>
@@ -45,13 +45,23 @@
 </nav>
 <div class="continer h-75">
     <div class="row h-100">
-        <div class="col-3 bg-primary">
+        <div class="col-3">
             Amigos encontrados
         </div>
-        <div class="col-6 bg-success">
-            Publicaciones
+        <div class="col-6 bg-light">
+            @section('content')
+                @if($contentType==="publications")
+                    <ul>
+                    @foreach($publications as $publication)
+                        <li>
+                            {{$publication}}
+                        </li>
+                    @endforeach
+                    </ul>
+                @endif
+            @show
         </div>
-        <div class="col bg-warning">
+        <div class="col">
             Contactos conectados
         </div>
     </div>
