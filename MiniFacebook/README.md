@@ -17,3 +17,6 @@ CU6: Gestion de Mensajes y Notificacion
 CU7: Reportes
 
 CU8: Estadisticas
+
+
+```composer remove pusher/pusher-http-laravel```
