@@ -21,6 +21,16 @@ CU8: Estadisticas
 
 ```composer install```
 
+```cp .env.example .env ```
+
+```vi .env ```
+
 ```composer remove pusher/pusher-http-laravel```
 
 ```composer require intervention/image```
+
+```php artisan key:generate```
+
+```php artisan migrate --seed ```
+
+```php artisan serve ```
