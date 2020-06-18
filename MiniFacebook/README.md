@@ -19,5 +19,8 @@ CU7: Reportes
 CU8: Estadisticas
 
 
+```composer install```
+
 ```composer remove pusher/pusher-http-laravel```
+
 ```composer require intervention/image```
