@@ -10,6 +10,22 @@ use Carbon\Carbon;
 
 class FriendRequestController extends Controller
 {
+    public function allMine(){
+        $friendRequests=FriendRequest::where([
+            ['requested',Auth::user()->id]
+        ])->join('users','requesting','users.id')
+        ->select(
+            'id',
+            'names',
+            'paternal_surname',
+            'maternal_surname',
+        )->get();
+        return redirect()->back()->with(
+            'friendRequests',
+            $friendRequests
+        );
+    }
+
     public function accept($userId){
         if(FriendRequest::where([
             ['requesting',$userId],

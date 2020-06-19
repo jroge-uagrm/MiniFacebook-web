@@ -8,29 +8,26 @@ use Exception;
 use App\User;
 use App\Friend;
 use App\FriendRequest;
+use App\Chat;
+use App\Message;
 use Image;
 use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
 
 class HomeController extends Controller
 {
-    public function index($contentType="publications",$userId=1){
-        $isFriend=$user="";
-        switch ($contentType) {
-            case "publications":
-                $publications=[
-                    "publication A",
-                    "Publication B",
-                    "Publication C",
-                    "Publication D",
-                ];
-                break;
-            case "configurations":
-                $configurations="";
-                break;
-            case "profile":
-                $profile="";
-                $user=User::find($userId);
+    public function publications(){
+        $publications=[
+            "publication A",
+            "Publication B",
+            "Publication C",
+            "Publication D",
+        ];
+        return view('home.publications',compact('publications'));
+    }
+
+    public function profile($userId){
+        $user=User::find($userId);
                 $user->birthday=Carbon::parse($user->birthday)->locale('es_ES')->isoFormat('D [de] MMMM');
                 $isFriend=Friend::where([
                     ['sender',Auth::user()->id],
@@ -39,32 +36,11 @@ class HomeController extends Controller
                     ['receiver',Auth::user()->id],
                     ['sender',$user->id]
                 ])->first()!=null;
-                break;
-        }
-        $friendRequests=FriendRequest::where([
-            ['requested',Auth::user()->id]
-        ])->join('users','requesting','users.id')
-        ->select(
-            'id',
-            'names',
-            'paternal_surname',
-            'maternal_surname',
-        )->get();
-        return view('home.'.$contentType,compact(
-            'contentType',
-            $contentType,
-            'friendRequests',
-            'isFriend',
-            'user'
-        ));
-    }
-
-    public function profile($userId){
-        return $this->index("profile",$userId);
+        return view('home.profile',compact('user','isFriend'));
     }
 
     public function configurations(){
-        return $this->index("configurations");
+        return view('home.configurations');
     }
 
     public function update(Request $request){
@@ -100,14 +76,13 @@ class HomeController extends Controller
             return redirect()->back()->with(
                 'success',
                 $response
-            );
+            );  
         }catch(Exception $e){
-            // throw AuthController::newError("email","Este correo ya ha sido registrado.");
-            throw AuthController::newError("email",$e->getMessage());
+            throw AuthController::newError("email","Este correo ya ha sido registrado.");
         }
     }
 
-    public function fetch_image($userId){
+    public function profile_picture($userId){
         $user=User::find($userId);
         $image_file=Image::make($user->profile_picture);
         $response=Response::make($image_file->encode('jpeg'));
@@ -127,6 +102,33 @@ class HomeController extends Controller
         return redirect()->back()->with(
             'foundUsers',
             $foundUsers
+        );
+    }
+
+    public function chats(){
+        $chatsCreator=Chat::where('creator',Auth::user()->id)
+        ->join('users','users.id','invited')
+        ->join('messages','messages.chat_id','chats.id')
+        ->select(
+            'users.id',
+            'users.names',
+            'users.paternal_surname',
+            'users.maternal_surname',
+        );
+
+        $chats=Chat::where('invited',Auth::user()->id)
+        ->join('users','users.id','creator')
+        ->join('messages','messages.chat_id','chats.id')
+        ->select(
+            'users.id',
+            'users.names',
+            'users.paternal_surname',
+            'users.maternal_surname',
+        )->union($chatsCreator)->get();
+
+        return redirect()->back()->with(
+            'chats',
+            $chats
         );
     }
 }

@@ -10,31 +10,31 @@
             @method('put')
             <div class="form-group">
                 <label>Nombre(s)</label>
-                <input type="text" name="names" class="form-control" value="{{Auth::user()->names}}">
+                <input type="text" name="names" class="form-control" value="{{old('names') ?? Auth::user()->names}}">
                 {!!$errors->first('names','<small class="text-danger font-weight-bold">:message</small>')!!}
             </div>
             <div class="form-group form-row">
                 <div class="col">
                     <label>Apellido paterno</label>
-                    <input type="text" name="paternal_surname" class="form-control" value="{{Auth::user()->paternal_surname}}">
+                    <input type="text" name="paternal_surname" class="form-control" value="{{old('paternal_surname') ?? Auth::user()->paternal_surname}}">
                     {!!$errors->first('paternal_surname','<small
                         class="text-danger font-weight-bold">:message</small>')!!}
                 </div>
                 <div class="col">
                     <label>Apellido materno</label>
-                    <input type="text" name="maternal_surname" class="form-control" value="{{Auth::user()->maternal_surname}}">
+                    <input type="text" name="maternal_surname" class="form-control" value="{{old('maternal_surname') ?? Auth::user()->maternal_surname}}">
                     {!!$errors->first('maternal_surname','<small
                         class="text-danger font-weight-bold">:message</small>')!!}
                 </div>
             </div>
             <div class="form-group">
                 <label>Fecha de nacimiento</label>
-                <input type="date" name="birthday" class="form-control" value="{{Auth::user()->birthday}}">
+                <input type="date" name="birthday" class="form-control" value="{{old('birthday') ?? Auth::user()->birthday}}">
                 {!!$errors->first('birthday','<small class="text-danger font-weight-bold">:message</small>')!!}
             </div>
             <div class="form-group">
                 <label>Correo</label>
-                <input type="email" name="email" class="form-control" value="{{Auth::user()->email}}">
+                <input type="email" name="email" class="form-control" value="{{old('email') ?? Auth::user()->email}}">
                 {!!$errors->first('email','<small class="text-danger font-weight-bold">:message</small>')!!}
             </div>
             <div class="form-group">

@@ -27,7 +27,7 @@
 </style>
 <div class="container-fluid h-100 font-weight-bold">
     <div class="row h-100">
-        <div class="col-7 bg-primary">
+        <div class="col-7 bg-info">
             <div class="container-fluid h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col col-6 mx-auto">

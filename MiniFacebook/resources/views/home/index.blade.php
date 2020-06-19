@@ -36,51 +36,107 @@
                 </a>
             </li>
             <li class="nav-item mx-3">
-                <a href="#">
+                <a href="{{route('chats')}}">
                     <img src="/images/icon-messages.png" width="30" height="30">
                 </a>
+                @if(session()->has('chats'))
+                <div class="dropdown-menu dropdown-menu-right col-8 p-0 show" id="divmessages">
+                    <div class="list-group rounded">
+                        @forelse(session()->get('chats') as $chat)
+                        <a href="{{route('chat',$chat->id)}}" class="list-group-item list-group-item-action">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-3 p-0">
+                                        <img src="{{route('profile_picture',1)}}" width="100%" height="100%">
+                                    </div>
+                                    <div class="col p-0">
+                                        <div class="container">
+                                            <div class="row w-100">
+                                                <div class="col">
+                                                    {{$chat->names}} {{$chat->paternal_surname}} {{$chat->maternal_surname}}
+                                                </div>
+                                            </div>
+                                            <div class="row w-100">
+                                                <div class="col">
+                                                    Mensaje
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        @empty
+                        <div class="list-group-item">
+                            No tiene chats
+                        </div>
+                        @endforelse
+                    </div>
+                </div>
+                @endif
             </li>
             <li class="nav-item mx-3">
-                <a data-toggle="dropdown" href="#">
+                <a href="{{route('friendRequest.allMine')}}">
                     <img src="/images/icon-friends.png" width="30" height="30">
                 </a>
-                <div class="dropdown-menu dropdown-menu-right p-0">
-                    @forelse($friendRequests as $friendRequest)
-                    <div class="container-fluid border border-info rounded">
-                        <div class="row">
-                            <div class="col-3 py-2">
-                                <img src="{{route('profile_picture',$friendRequest->id)}}" width="100%" height="100%">
-                            </div>
-                            <div class="col p-0 mt-3">
-                                <a href="{{route('profile',$friendRequest->id)}}" class="dropdown-item container-fluid p-0">
-                                    {{$friendRequest->names}} {{$friendRequest->paternal_surname}}
-                                    {{$friendRequest->maternal_surname}}
-                                </a>
-                            </div>
-                            <div class="position-absolute align-self-end row w-100">
-                                <div class="col-9 ml-auto mb-3">
-                                    <a href="{{route('friendRequest.accept',$friendRequest->id)}}" class="btn btn-sm btn-info">
-                                        Aceptar
-                                    </a>
-                                    <a href="{{route('friendRequest.reject',$friendRequest->id)}}" class="btn btn-sm btn-danger">
-                                        Rechazar
-                                    </a>
+                @if(session()->has('friendRequests'))
+                <div class="dropdown-menu dropdown-menu-right col-8 p-0 show" id="divfriendrequests">
+                    <div class="list-group rounded">
+                        @forelse(session()->get('friendRequests') as $friendRequest)
+                        <div class="list-group-item list-group-item-action">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-3 p-0">
+                                        <a href="{{route('profile',$friendRequest->id)}}">
+                                            <img src="{{route('profile_picture',$friendRequest->id)}}" width="100%"
+                                                height="100%">
+                                        </a>
+                                    </div>
+                                    <div class="col p-0">
+                                        <div class="container">
+                                            <div class="row w-100">
+                                                <div class="col">
+                                                    <small>
+                                                        <a href="{{route('profile',$friendRequest->id)}}"
+                                                            class="text-dark font-weight-bold">
+                                                            {{$friendRequest->names}}
+                                                            {{$friendRequest->paternal_surname}}
+                                                            {{$friendRequest->maternal_surname}}
+                                                        </a>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="row w-100 mt-2">
+                                                <div class="col">
+                                                    <a href="{{route('friendRequest.accept',$friendRequest->id)}}" class="btn btn-sm btn-info">
+                                                        Aceptar
+                                                    </a>
+                                                </div>
+                                                <div class="col">
+                                                    <a href="{{route('friendRequest.reject',$friendRequest->id)}}"class="btn btn-sm btn-danger">
+                                                        Rechazar
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        @empty
+                        <div class="list-group-item">
+                            Sin solicitudes
+                        </div>
+                        @endforelse
                     </div>
-                    @empty
-                    <a class="dropdown-item" href="#">
-                        No tienes solicitudes
-                    </a>
-                    @endforelse
                 </div>
+                @endif
             </li>
             <li class="nav-item mx-3">
                 <a type="button" data-toggle="dropdown">
                     <img src="/images/icon-configurations.png" width="30" height="30">
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-right col-6">
                     <a class="dropdown-item" href="{{route('configurations')}}">Configurar perfil</a>
                     <a class="dropdown-item" href="{{route('logout')}}">Cerrar sesión</a>
                 </div>
@@ -108,7 +164,7 @@
             <h5 class="text-center">Busca más usuarios para conectarte con ellos</h5>
             @endif
         </div>
-        <!-- PUBLICATIONS -->
+        <!-- CONTENT -->
         <div class="col-6 bg-light">
             @section('content')
             @show

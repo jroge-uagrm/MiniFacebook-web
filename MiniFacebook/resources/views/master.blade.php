@@ -20,6 +20,14 @@
     a:link {
       text-decoration: none;
     }
+
+    .btn-group-xs>.btn,
+    .btn-xs {
+      padding: .25rem .4rem;
+      font-size: .875rem;
+      line-height: .5;
+      border-radius: .2rem;
+    }
   </style>
 </head>
 
@@ -54,6 +62,11 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
     crossorigin="anonymous"></script>
+  <script>
+    $('body').click(function () {
+      $('#divmessages').hide();
+    });
+  </script>
 </body>
 
 </html>
