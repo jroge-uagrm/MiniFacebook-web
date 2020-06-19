@@ -43,10 +43,12 @@ class AuthController extends Controller
         $user->names=$request->names;
         $user->paternal_surname=$request->paternal_surname;
         $user->maternal_surname=$request->maternal_surname;
+        $user->full_name=$request->names.' '.$request->paternal_surname.' '.$request->maternal_surname;
         $user->birthday=$request->birthday;
         $user->email=$request->email;
 
         $image=Image::make(base_path('public/images/pp-default.jpeg'));
+        $image->resize(300,300);
         Response::make($image->encode('jpeg'));
         $user->profile_picture=$image;
 

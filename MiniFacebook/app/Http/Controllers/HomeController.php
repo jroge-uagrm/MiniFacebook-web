@@ -6,28 +6,65 @@ use Illuminate\Http\Request;
 use Auth;
 use Exception;
 use App\User;
-
+use App\Friend;
+use App\FriendRequest;
 use Image;
 use Illuminate\Support\Facades\Response;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
-    public function index(){
-        $user = Auth::user();
-        $contentType="publications";
-        $publications=[
-            "publication A",
-            "Publication B",
-            "Publication C",
-            "Publication D",
-        ];
-        return view('home.index',compact('user','contentType','publications'));
+    public function index($contentType="publications",$userId=1){
+        $isFriend=$user="";
+        switch ($contentType) {
+            case "publications":
+                $publications=[
+                    "publication A",
+                    "Publication B",
+                    "Publication C",
+                    "Publication D",
+                ];
+                break;
+            case "configurations":
+                $configurations="";
+                break;
+            case "profile":
+                $profile="";
+                $user=User::find($userId);
+                $user->birthday=Carbon::parse($user->birthday)->locale('es_ES')->isoFormat('D [de] MMMM');
+                $isFriend=Friend::where([
+                    ['sender',Auth::user()->id],
+                    ['receiver',$user->id]
+                ])->orWhere([
+                    ['receiver',Auth::user()->id],
+                    ['sender',$user->id]
+                ])->first()!=null;
+                break;
+        }
+        $friendRequests=FriendRequest::where([
+            ['requested',Auth::user()->id]
+        ])->join('users','requesting','users.id')
+        ->select(
+            'id',
+            'names',
+            'paternal_surname',
+            'maternal_surname',
+        )->get();
+        return view('home.'.$contentType,compact(
+            'contentType',
+            $contentType,
+            'friendRequests',
+            'isFriend',
+            'user'
+        ));
     }
 
-    public function read(){
-        $user = Auth::user();
-        $contentType="profile_config";
-        return view('home.profile',compact('user','contentType'));
+    public function profile($userId){
+        return $this->index("profile",$userId);
+    }
+
+    public function configurations(){
+        return $this->index("configurations");
     }
 
     public function update(Request $request){
@@ -43,15 +80,21 @@ class HomeController extends Controller
             $user->names=$request->names;
             $user->paternal_surname=$request->paternal_surname;
             $user->maternal_surname=$request->maternal_surname;
+            $user->full_name=$request->names.' '.$request->paternal_surname.' '.$request->maternal_surname;
             $user->birthday=$request->birthday;
             $user->email=$request->email;
             $response="Se han actualizado tus datos.";
-            if($request->hasFile('profile_picture')){
-                $profile_picture=$request->profile_picture;
-                $image=Image::make($profile_picture);
-                Response::make($image->encode('jpeg'));
-                $user->profile_picture=$image;
-                $response="Se ha guardado tu nueva foto de perfil.";
+            try{
+                if($request->hasFile('profile_picture')){
+                    $profile_picture=$request->profile_picture;
+                    $image=Image::make($profile_picture);
+                    $image->resize(300,300);
+                    Response::make($image->encode('jpeg'));
+                    $user->profile_picture=$image;
+                    $response="Se ha guardado tu nueva foto de perfil.";
+                }
+            }catch(Exception $e){
+                throw AuthController::newError("profile_picture","Tipo de archivo no soportado.");
             }
             $user->save();
             return redirect()->back()->with(
@@ -59,7 +102,8 @@ class HomeController extends Controller
                 $response
             );
         }catch(Exception $e){
-            throw AuthController::newError("email","Este correo ya ha sido registrado.");
+            // throw AuthController::newError("email","Este correo ya ha sido registrado.");
+            throw AuthController::newError("email",$e->getMessage());
         }
     }
 
@@ -69,5 +113,20 @@ class HomeController extends Controller
         $response=Response::make($image_file->encode('jpeg'));
         $response->header('Content-Type','image/jpeg');
         return $response;
+    }
+
+    public function search(Request $request){
+        $request->validate([
+            'fullName' => 'required',
+        ]);
+        $user=Auth::user();
+        $foundUsers=User::where([
+            ['full_name','like','%'.$request->fullName.'%'],
+            ['id','<>',$user->id]
+        ])->take(10)->get();
+        return redirect()->back()->with(
+            'foundUsers',
+            $foundUsers
+        );
     }
 }

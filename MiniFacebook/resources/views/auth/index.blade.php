@@ -32,7 +32,7 @@
                 <div class="row h-100 align-items-center">
                     <div class="col col-6 mx-auto">
                         <h1 class="text-center">Inicia sesión</h1>
-                        <form action="login" method="post" class="border rounded border-dark p-5">
+                        <form action="{{route('login')}}" method="post" class="border rounded border-dark p-5">
                             {{csrf_field()}}
                             <div class="form-group">
                                 <label>Correo</label>
@@ -59,7 +59,7 @@
                 <div class="row h-100 align-items-center">
                     <div class="col-9 mx-auto">
                         <h1 class="text-center">Regístrate</h1>
-                        <form action="register" method="post" class="border rounded border-dark p-5">
+                        <form action="{{route('register')}}" method="post" class="border rounded border-dark p-5">
                             {{csrf_field()}}
                             <div class="form-group">
                                 <label>Nombre(s)</label>
