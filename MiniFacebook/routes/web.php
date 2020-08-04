@@ -8,7 +8,9 @@ Route::post('login','AuthController@login')->name('login');
 Route::post('register','AuthController@register')->name('register');
 
 Route::get('profile/{userId}','HomeController@profile')->name('profile');
-Route::get('profile_picture/{userId}','HomeController@profile_picture')->name('profile_picture');
+Route::get('profile_picture/{userId}','HomeController@profilePicture')->name('profile_picture');
+
+
 
 Route::middleware('auth')->group(function () {
     

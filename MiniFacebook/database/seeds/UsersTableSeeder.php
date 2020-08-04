@@ -47,15 +47,15 @@ class UsersTableSeeder extends Seeder
             $user->maternal_surname=$userInformation['maternal_surname'];
             $user->full_name=$userInformation['full_name'];
             $user->birthday=$userInformation['birthday'];
-            $image=Intervention\Image\Facades\Image::make(base_path('public/images/pp-default.jpeg'));
-            $image->resize(300,300);
-            Response::make($image->encode('jpeg'));
-            $user->profile_picture=$image;
+            // $image=Intervention\Image\Facades\Image::make(base_path('public/images/pp-default.jpeg'));
+            // $image->resize(300,300);
+            // Response::make($image->encode('jpeg'));
+            // $user->profile_picture_path='public/images/pp-default.jpeg';
             $user->email=$userInformation['email'];
             $user->password=bcrypt(env('APP_SECRET_PASSWORD'));
             $user->created_at=Carbon::now();
             $user->updated_at=Carbon::now();
-            $user->save();
+            // $user->save();
         }
     }
 }

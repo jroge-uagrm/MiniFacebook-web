@@ -70,7 +70,7 @@ class MessagesTableSeeder extends Seeder
             $message->file_content=$messageInformation['file_content'];
             $message->text_content=$messageInformation['text_content'];
             $message->created_at=$messageInformation['created_at'];
-            $message->save();
+            // $message->save();
         }
     }
 }

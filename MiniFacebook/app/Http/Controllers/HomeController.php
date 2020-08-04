@@ -52,42 +52,41 @@ class HomeController extends Controller
             'email' => 'required|email',
         ]);
         $user=Auth::user();
+        $user->names=$request->names;
+        $user->paternal_surname=$request->paternal_surname;
+        $user->maternal_surname=$request->maternal_surname;
+        $user->full_name=$request->names.' '.$request->paternal_surname.' '.$request->maternal_surname;
+        $user->birthday=$request->birthday;
+        $user->email=$request->email;
+        $response="Se han actualizado tus datos.";
         try{
-            $user->names=$request->names;
-            $user->paternal_surname=$request->paternal_surname;
-            $user->maternal_surname=$request->maternal_surname;
-            $user->full_name=$request->names.' '.$request->paternal_surname.' '.$request->maternal_surname;
-            $user->birthday=$request->birthday;
-            $user->email=$request->email;
-            $response="Se han actualizado tus datos.";
-            try{
-                if($request->hasFile('profile_picture')){
-                    $profile_picture=$request->profile_picture;
-                    $image=Image::make($profile_picture);
-                    $image->resize(300,300);
-                    Response::make($image->encode('jpeg'));
-                    $user->profile_picture=$image;
-                    $response="Se ha guardado tu nueva foto de perfil.";
-                }
-            }catch(Exception $e){
-                throw AuthController::newError("profile_picture","Tipo de archivo no soportado.");
+            if($request->hasFile('profile_picture')){
+                $profile_picture=$request->profile_picture;
+                $image=Image::make($profile_picture);
+                $image->resize(300,300);
+                Response::make($image->encode('jpeg'));
+                $image->save(public_path()."/images/pp-$user->id.jpeg");
+                // $user->profile_picture_path='public/images/pp-'.$user->id.'.jpeg';
+                $response="Se ha guardado tu nueva foto de perfil.";
             }
-            $user->save();
-            return redirect()->back()->with(
-                'success',
-                $response
-            );  
         }catch(Exception $e){
-            throw AuthController::newError("email","Este correo ya ha sido registrado.");
+            throw AuthController::newError("profile_picture","Tipo de archivo no soportado.");
         }
+        $user->save();
+        return redirect()->back()->with(
+            'success',
+            $response
+        );
     }
 
-    public function profile_picture($userId){
-        $user=User::find($userId);
-        $image_file=Image::make($user->profile_picture);
-        $response=Response::make($image_file->encode('jpeg'));
-        $response->header('Content-Type','image/jpeg');
-        return $response;
+    public function profilePicture($userId){
+        try{
+            // return response()->file(public_path(). "/images/pp-'.$userId.'.jpeg");
+            return Image::make(public_path(). "/images/pp-$userId.jpeg")->response('jpeg');
+        }catch(Exception $e){
+            // return response()->file(public_path(). "/images/pp-default.jpeg");
+            return Image::make(public_path(). "/images/pp-default.jpeg")->response('jpeg');
+        }
     }
 
     public function search(Request $request){

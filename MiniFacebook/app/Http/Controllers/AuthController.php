@@ -47,10 +47,10 @@ class AuthController extends Controller
         $user->birthday=$request->birthday;
         $user->email=$request->email;
 
-        $image=Image::make(base_path('public/images/pp-default.jpeg'));
-        $image->resize(300,300);
-        Response::make($image->encode('jpeg'));
-        $user->profile_picture=$image;
+        // $image=Image::make(base_path('public/images/pp-default.jpeg'));
+        // $image->resize(300,300);
+        // Response::make($image->encode('jpeg'));
+        // $user->profile_picture_path='public/images/pp-default.png';
 
         $user->password=bcrypt($request->password);
         $user->created_at=Carbon::now();

@@ -69,13 +69,15 @@
                             </div>
                             <div class="form-group form-row">
                                 <div class="col">
-                                    <label>Apellido paterno</label>
+                                    <label>Apellido</label><br>
+                                    <label>paterno</label>
                                     <input type="text" name="paternal_surname" class="form-control" value="{{old('paternal_surname')}}">
                                     {!!$errors->first('paternal_surname','<small
                                     class="text-white font-weight-bold">:message</small>')!!}
                                 </div>
                                 <div class="col">
-                                    <label>Apellido materno</label>
+                                    <label>Apellido</label><br>
+                                    <label>materno</label>
                                     <input type="text" name="maternal_surname" class="form-control" value="{{old('maternal_surname')}}">
                                     {!!$errors->first('maternal_surname','<small
                                     class="text-white font-weight-bold">:message</small>')!!}

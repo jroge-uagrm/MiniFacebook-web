@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Friend;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class FriendsTableSeeder extends Seeder
 {
@@ -13,10 +13,9 @@ class FriendsTableSeeder extends Seeder
      */
     public function run()
     {
-        $friend=new Friend();
-        $friend->sender=2;
-        $friend->receiver=3;
-        $friend->created_at=Carbon::now();
-        $friend->save();
+        // DB::table('friends')->insert([
+        //     'sender'=>1,
+        //     'receiver'=>2
+        // ]);
     }
 }
