@@ -1,26 +1,24 @@
 <?php
 use Illuminate\Support\Facades\Route;
 
-Route::permanentRedirect('/','/home');
+Route::redirect('/','/home');
 
 Route::get('login','AuthController@index')->name('authenticate');
 Route::post('login','AuthController@login')->name('login');
 Route::post('register','AuthController@register')->name('register');
 
-Route::get('profile/{userId}','HomeController@profile')->name('profile');
-Route::get('profile_picture/{userId}','HomeController@profilePicture')->name('profile_picture');
-
-
-
 Route::middleware('auth')->group(function () {
     
     Route::get('home','HomeController@publications')->name('home');
+
+    Route::get('profile/{userId}','UserController@index')->name('profile');
+    Route::get('profile_picture/{userId}','UserController@profilePicture')->name('profile_picture');
     
     Route::get('logout','AuthController@logout')->name('logout');
     Route::put('change_password','AuthController@changePassword')->name('password.save');
     
-    Route::get('configurations','HomeController@configurations')->name('configurations');
-    Route::put('configurations','HomeController@update')->name('configurations.save');
+    Route::get('configurations','UserController@configurations')->name('configurations');
+    Route::put('configurations','UserController@update')->name('configurations.save');
 
     Route::post('search','HomeController@search')->name('search');
 

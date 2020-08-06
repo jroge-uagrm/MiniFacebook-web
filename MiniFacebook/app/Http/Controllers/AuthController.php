@@ -33,28 +33,20 @@ class AuthController extends Controller
     public function register(Request $request){
         $request->validate([
             'names' => 'required',
-            'paternal_surname' => 'required',
-            'maternal_surname' => 'required',
-            'birthday' => 'required|date',
+            'last_names' => 'required',
             'email' => 'required|email|unique:users',
+            'sex' => 'required',
             'password' => 'required|confirmed',
         ]);
         $user=new User();
         $user->names=$request->names;
-        $user->paternal_surname=$request->paternal_surname;
-        $user->maternal_surname=$request->maternal_surname;
-        $user->full_name=$request->names.' '.$request->paternal_surname.' '.$request->maternal_surname;
-        $user->birthday=$request->birthday;
+        $user->last_names=$request->last_names;
+        $user->full_name=$request->names.' '.$request->last_names;
+        $user->birthday=Carbon::now();
         $user->email=$request->email;
-
-        // $image=Image::make(base_path('public/images/pp-default.jpeg'));
-        // $image->resize(300,300);
-        // Response::make($image->encode('jpeg'));
-        // $user->profile_picture_path='public/images/pp-default.png';
-
+        $user->sex=$request->sex;
         $user->password=bcrypt($request->password);
         $user->created_at=Carbon::now();
-        $user->updated_at=Carbon::now();
         $user->save();
         if (Auth::attempt(['email'=>$request->email,'password'=>$request->password])) {
             return redirect()->route('home');

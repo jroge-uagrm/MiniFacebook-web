@@ -14,6 +14,7 @@ class CreateFriendRequestsTable extends Migration
     public function up()
     {
         Schema::create('friend_requests', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('requesting');
             $table->unsignedBigInteger('requested');
             $table->foreign('requesting')->references('id')->on('users');

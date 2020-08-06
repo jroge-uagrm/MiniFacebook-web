@@ -19,11 +19,13 @@ class ChatController extends Controller
             ['invited',Auth::user()->id],
             ['creator',$userId]
         ])->first();
-        //HACER SI NO HAY CHAT
-        $messages=Message::where([
-            ['chat_id',$chat->id],
-            ['sender_status','saved']
-        ])->orderBy('created_at','asc')->take($chat_lenght)->get();
+        $messages=[];
+        if($chat!=null){
+            $messages=Message::where([
+                ['chat_id',$chat->id],
+                ['sender_status','saved']
+                ])->orderBy('created_at','asc')->take($chat_lenght)->get();
+        }
         return view('home.chat',compact('user','messages'));
     }
 }

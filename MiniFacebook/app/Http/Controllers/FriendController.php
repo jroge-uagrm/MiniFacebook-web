@@ -11,31 +11,35 @@ use Auth;
 class FriendController extends Controller
 {
     public function request($userId){
-        if($userId===Auth::user()->id){
+        if($userId===Auth::id()){
             return redirect()->back()->with(
                 'error',
                 'No puedes enviarte solicitud a ti mismo.'
             );
         }
-        $oldFriendRequest=FriendRequest::where([
+        $availableToSendFriendRequest=FriendRequest::where([
+            ['requested',Auth::user()->id],
+            ['requesting',$userId]
+        ])->orWhere([
             ['requesting',Auth::user()->id],
             ['requested',$userId]
-        ])->first();
-        if($oldFriendRequest!==null){
-            $oldFriendRequest=FriendRequest::where([
-                ['requesting',Auth::user()->id],
-                ['requested',$userId]
-            ])->delete();
+        ])->first()==null;
+        if($availableToSendFriendRequest){
+            $friendRequest=new FriendRequest();
+            $friendRequest->requesting=Auth::id();
+            $friendRequest->requested=$userId;
+            $friendRequest->created_at=Carbon::now();
+            $friendRequest->save();
+            return redirect()->back()->with(
+                'success',
+                'Solicitud enviada.'
+            );
+        }else{
+            return redirect()->back()->with(
+                'error',
+                'No se ha podido enviar la solicitud.'
+            );
         }
-        $friendRequest=new FriendRequest();
-        $friendRequest->requesting=Auth::user()->id;
-        $friendRequest->requested=$userId;
-        $friendRequest->created_at=Carbon::now();
-        $friendRequest->save();
-        return redirect()->back()->with(
-            'success',
-            'Solicitud enviada.'
-        );
     }
 
     public function delete($userId){

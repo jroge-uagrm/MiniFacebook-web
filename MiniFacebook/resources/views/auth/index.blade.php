@@ -67,26 +67,20 @@
                                 {!!$errors->first('names','<small
                                     class="text-white font-weight-bold">:message</small>')!!}
                             </div>
-                            <div class="form-group form-row">
-                                <div class="col">
-                                    <label>Apellido</label><br>
-                                    <label>paterno</label>
-                                    <input type="text" name="paternal_surname" class="form-control" value="{{old('paternal_surname')}}">
-                                    {!!$errors->first('paternal_surname','<small
+                            <div class="form-group">
+                                <label>Apellidos</label>
+                                <input type="text" name="last_names" class="form-control" value="{{old('last_names')}}">
+                                {!!$errors->first('last_names','<small
                                     class="text-white font-weight-bold">:message</small>')!!}
-                                </div>
-                                <div class="col">
-                                    <label>Apellido</label><br>
-                                    <label>materno</label>
-                                    <input type="text" name="maternal_surname" class="form-control" value="{{old('maternal_surname')}}">
-                                    {!!$errors->first('maternal_surname','<small
-                                    class="text-white font-weight-bold">:message</small>')!!}
-                                </div>
                             </div>
                             <div class="form-group">
-                                <label>Fecha de nacimiento</label>
-                                <input type="date" name="birthday" class="form-control" value="{{old('birthday')}}">
-                                {!!$errors->first('birthday','<small
+                                <label>Sexo</label>
+                                <select name="sex" class="form-control">
+                                    <option disabled selected>Seleccionar</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                                {!!$errors->first('sex','<small
                                     class="text-white font-weight-bold">:message</small>')!!}
                             </div>
                             <div class="form-group">
@@ -98,11 +92,13 @@
                             <div class="form-group">
                                 <label>Nueva contraseña</label>
                                 <input type="password" name="password" class="form-control" value="{{old('password')}}">
-                                {!!$errors->first('password','<small class="text-white font-weight-bold">:message</small>')!!}
+                                {!!$errors->first('password','<small
+                                    class="text-white font-weight-bold">:message</small>')!!}
                             </div>
                             <div class="form-group">
                                 <label>Confirma tu nueva contraseña</label>
-                                <input type="password" name="password_confirmation" class="form-control" value="{{old('password_confirmation')}}">
+                                <input type="password" name="password_confirmation" class="form-control"
+                                    value="{{old('password_confirmation')}}">
                                 {!!$errors->first('password','<small
                                     class="text-white font-weight-bold text-small">:message</small>')!!}
                             </div>

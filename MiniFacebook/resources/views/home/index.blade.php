@@ -13,7 +13,7 @@
                     <div class="form-group form-row">
                         <input class="form-control" type="search" name="fullName" placeholder="Buscar usuarios"
                             aria-label="Search">
-                        <button class="btn btn-warning" type="submit">Buscar</button>
+                        <button class="btn btn-outline-dark" type="submit">Buscar</button>
                     </div>
                 </form>
             </li>
@@ -21,8 +21,7 @@
         <ul class="navbar-nav col-4 justify-content-center">
             <li class="nav-item mx-3">
                 <a href="{{route('home')}}" class="text-dark">
-                    <!-- <img src="/images/icon-app.png" width="30" height="30"> -->
-                    Icono
+                    <img src="/images/logo.png" width="30" height="30">
                 </a>
             </li>
         </ul>
@@ -53,7 +52,8 @@
                                         <div class="container">
                                             <div class="row w-100">
                                                 <div class="col">
-                                                    {{$chat->names}} {{$chat->paternal_surname}} {{$chat->maternal_surname}}
+                                                    {{$chat->names}} {{$chat->paternal_surname}}
+                                                    {{$chat->maternal_surname}}
                                                 </div>
                                             </div>
                                             <div class="row w-100">
@@ -100,20 +100,21 @@
                                                         <a href="{{route('profile',$friendRequest->id)}}"
                                                             class="text-dark font-weight-bold">
                                                             {{$friendRequest->names}}
-                                                            {{$friendRequest->paternal_surname}}
-                                                            {{$friendRequest->maternal_surname}}
+                                                            {{$friendRequest->last_names}}
                                                         </a>
                                                     </small>
                                                 </div>
                                             </div>
                                             <div class="row w-100 mt-2">
                                                 <div class="col">
-                                                    <a href="{{route('friendRequest.accept',$friendRequest->id)}}" class="btn btn-sm btn-info">
+                                                    <a href="{{route('friendRequest.accept',$friendRequest->id)}}"
+                                                        class="btn btn-sm btn-info">
                                                         Aceptar
                                                     </a>
                                                 </div>
                                                 <div class="col">
-                                                    <a href="{{route('friendRequest.reject',$friendRequest->id)}}"class="btn btn-sm btn-danger">
+                                                    <a href="{{route('friendRequest.reject',$friendRequest->id)}}"
+                                                        class="btn btn-sm btn-danger">
                                                         Rechazar
                                                     </a>
                                                 </div>
@@ -153,9 +154,17 @@
             <ul class="list-group">
                 @foreach(session()->get('foundUsers') as $foundUser)
                 <a href="{{route('profile',$foundUser->id)}}">
-                    <li class="list-group-item list-group-item-action border border-info">
-                        <img src="{{route('profile_picture',$foundUser->id)}}" width="50" height="50">
-                        {{$foundUser->names}} {{$foundUser->paternal_surname}} {{$foundUser->maternal_surname}}
+                    <li class="list-group-item list-group-item-action border border-info rounded">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="{{route('profile_picture',$foundUser->id)}}" class="img-fluid img-thumbnail"
+                                    alt="Responsive image">
+                            </div>
+                            <div class="col">
+                                <h7>{{$foundUser->names}}</h7><br>
+                                <h7>{{$foundUser->last_names}}</h7>
+                            </div>
+                        </div>
                     </li>
                 </a>
                 @endforeach

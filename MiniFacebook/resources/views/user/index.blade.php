@@ -22,10 +22,20 @@
                     Enviar mensaje
                 </a>
                 @else
+                @if($availableToSendFriendRequest)
                 <a href="{{route('friend.request',$user->id)}}" class="btn btn-info">
                     Enviar solicitud
                 </a>
+                @else
+                <a href="#" class="btn btn-info disabled">
+                    Solicitud pendiente
+                </a>
                 @endif
+                @endif
+                @else
+                <a href="{{route('configurations')}}" class="btn btn-info">
+                    Editar perfil
+                </a>
                 @endif
             </div>
         </div>

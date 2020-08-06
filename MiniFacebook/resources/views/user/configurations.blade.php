@@ -14,33 +14,50 @@
                 {!!$errors->first('names','<small class="text-danger font-weight-bold">:message</small>')!!}
             </div>
             <div class="form-group form-row">
-                <div class="col">
-                    <label>Apellido paterno</label>
-                    <input type="text" name="paternal_surname" class="form-control" value="{{old('paternal_surname') ?? Auth::user()->paternal_surname}}">
-                    {!!$errors->first('paternal_surname','<small
-                        class="text-danger font-weight-bold">:message</small>')!!}
-                </div>
-                <div class="col">
-                    <label>Apellido materno</label>
-                    <input type="text" name="maternal_surname" class="form-control" value="{{old('maternal_surname') ?? Auth::user()->maternal_surname}}">
-                    {!!$errors->first('maternal_surname','<small
-                        class="text-danger font-weight-bold">:message</small>')!!}
-                </div>
+                <label>Apellidos</label>
+                <input type="text" name="last_names" class="form-control"
+                    value="{{old('paternal_surname') ?? Auth::user()->last_names}}">
+                {!!$errors->first('last_names','<small class="text-danger font-weight-bold">:message</small>')!!}
             </div>
-            <div class="form-group">
-                <label>Fecha de nacimiento</label>
-                <input type="date" name="birthday" class="form-control" value="{{old('birthday') ?? Auth::user()->birthday}}">
-                {!!$errors->first('birthday','<small class="text-danger font-weight-bold">:message</small>')!!}
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label>Fecha de nacimiento</label>
+                    <input type="date" name="birthday" class="form-control"
+                        value="{{old('birthday') ?? Auth::user()->birthday}}">
+                    {!!$errors->first('birthday','<small class="text-danger font-weight-bold">:message</small>')!!}
+                </div>
+                <div class="col">
+                    <label>Número de celular</label>
+                    <input type="text" name="phone_number" class="form-control"
+                        value="{{old('phone_number') ?? Auth::user()->phone_number}}">
+                    {!!$errors->first('phone_number','<small class="text-danger font-weight-bold">:message</small>')!!}
+                </div>
             </div>
             <div class="form-group">
                 <label>Correo</label>
                 <input type="email" name="email" class="form-control" value="{{old('email') ?? Auth::user()->email}}">
                 {!!$errors->first('email','<small class="text-danger font-weight-bold">:message</small>')!!}
             </div>
-            <div class="form-group">
-                <label>Foto de perfil</label>
-                <input type="file" name="profile_picture" class="form-control">
-                {!!$errors->first('profile_picture','<small class="text-danger font-weight-bold">:message</small>')!!}
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label>Foto de perfil</label>
+                    <input type="file" name="profile_picture" class="form-control-file">
+                    {!!$errors->first('profile_picture','<small
+                        class="text-danger font-weight-bold">:message</small>')!!}
+                </div>
+                <div class="col">
+                    <label>Sexo</label>
+                    <select name="sex" class="form-control">
+                        @if(Auth::user()->sex=='M')
+                        <option value="M" selected>Masculino</option>
+                        <option value="F">Femenino</option>
+                        @else
+                        <option value="M">Masculino</option>
+                        <option value="F" selected>Femenino</option>
+                        @endif
+                    </select>
+                    {!!$errors->first('phone_number','<small class="text-danger font-weight-bold">:message</small>')!!}
+                </div>
             </div>
             <div class="form-group form-row">
                 <input type="submit" class="btn btn-info mx-auto" value="Guardar">
@@ -48,7 +65,7 @@
         </form>
     </div>
 </div>
-<div class="row">
+<div class="row mb-4">
     <div class="col border border-dark p-0">
         <h2 class="text-center mt-3">
             Cambiar contraseña

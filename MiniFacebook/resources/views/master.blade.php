@@ -65,8 +65,16 @@
   <script>
     $('body').click(function () {
       $('#divmessages').hide();
+      $('#divfriendrequests').hide();
     });
   </script>
+  <footer class="fixed-bottom bg-dark text-white text-center">
+    <div class="row justify-content-center">
+      <small>
+        © Grupo 8 - SA
+      </small>
+    </div>
+  </footer>
 </body>
 
 </html>
