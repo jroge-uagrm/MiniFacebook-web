@@ -7,6 +7,7 @@ use App\User;
 use App\Chat;
 use App\Message;
 use Auth;
+use App\Events\FriendRequestSent;
 
 class ChatController extends Controller
 {
@@ -27,5 +28,15 @@ class ChatController extends Controller
                 ])->orderBy('created_at','asc')->take($chat_lenght)->get();
         }
         return view('home.chat',compact('user','messages'));
+    }
+
+    public function sendMessage(Request $request){
+        $text=[
+            'senderId'=>Auth::id(),
+            'receiverId'=>$request->receiverId,
+            'text'=>$request->text,
+        ];
+        event(new FriendRequestSent($text));
+        return redirect()->back();
     }
 }
