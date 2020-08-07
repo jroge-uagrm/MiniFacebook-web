@@ -27,10 +27,10 @@
 </style>
 <div class="container-fluid h-100 font-weight-bold">
     <div class="row h-100">
-        <div class="col-7 bg-info">
+        <div class="col-md-7 col-sm-12 bg-info">
             <div class="container-fluid h-100">
                 <div class="row h-100 align-items-center">
-                    <div class="col col-6 mx-auto">
+                    <div class="col-md-6 mx-auto mb-4">
                         <h1 class="text-center">Inicia sesión</h1>
                         <form action="{{route('login')}}" method="post" class="border rounded border-dark p-5">
                             {{csrf_field()}}
@@ -57,7 +57,7 @@
         <div class="col bg-warning">
             <div class="container-fluid h-100">
                 <div class="row h-100 align-items-center">
-                    <div class="col-9 mx-auto">
+                    <div class="col-md-9 mx-auto mb-5">
                         <h1 class="text-center">Regístrate</h1>
                         <form action="{{route('register')}}" method="post" class="border rounded border-dark p-5">
                             {{csrf_field()}}

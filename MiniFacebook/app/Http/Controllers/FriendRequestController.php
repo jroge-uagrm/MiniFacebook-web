@@ -7,9 +7,47 @@ use App\Contact;
 use App\FriendRequest;
 use Auth;
 use Carbon\Carbon;
+use App\Events\FriendRequestSent;
+
 
 class FriendRequestController extends Controller
 {
+    public function send($userId){
+        if($userId===Auth::id()){
+            return redirect()->back()->with(
+                'error',
+                'No puedes enviarte solicitud a ti mismo.'
+            );
+        }
+        $availableToSendFriendRequest=FriendRequest::where([
+            ['requested',Auth::user()->id],
+            ['requesting',$userId]
+        ])->orWhere([
+            ['requesting',Auth::user()->id],
+            ['requested',$userId]
+        ])->first()==null;
+        if($availableToSendFriendRequest){
+            $friendRequest=new FriendRequest();
+            $friendRequest->requesting=Auth::id();
+            $friendRequest->requested=$userId;
+            $friendRequest->created_at=Carbon::now();
+            $friendRequest->save();
+            $data=[
+                "userId"=>$userId
+            ];
+            event(new FriendRequestSent($data));
+            return redirect()->back()->with(
+                'success',
+                'Solicitud enviada.'
+            );
+        }else{
+            return redirect()->back()->with(
+                'error',
+                'No se ha podido enviar la solicitud.'
+            );
+        }
+    }
+
     public function allMine(){
         $friendRequests=FriendRequest::where([
             ['requested',Auth::user()->id]

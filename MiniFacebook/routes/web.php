@@ -22,15 +22,15 @@ Route::middleware('auth')->group(function () {
 
     Route::post('search','HomeController@search')->name('search');
 
-    Route::get('friend_request/{userId}','FriendController@request')->name('friend.request');
-    Route::get('friend_delete/{userId}','FriendController@delete')->name('friend.delete');
+    Route::get('friend_request/{userId}','FriendRequestController@send')->name('friend.request');
+    Route::get('friend_delete/{userId}','ContactController@delete')->name('friend.delete');
     Route::get('friend_request_all_mine','FriendRequestController@allMine')->name('friendRequest.allMine');
     Route::get('friend_request_accept/{userId}','FriendRequestController@accept')->name('friendRequest.accept');
     Route::get('friend_request_reject/{userId}','FriendRequestController@reject')->name('friendRequest.reject');
 
     Route::get('chats','HomeController@chats')->name('chats');
     Route::get('chat/{userId}','ChatController@index')->name('chat');
-    // Route::post('chat/send_message','ChatController@sendMessage')->name('chat.sendMessage');
+    Route::post('chat/send_message','ChatController@sendMessage')->name('chat.sendMessage');
     
     Route::get('message/{userId}','ChatController@message')->name('message');
 

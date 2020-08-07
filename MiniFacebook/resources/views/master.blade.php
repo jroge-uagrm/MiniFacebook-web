@@ -68,6 +68,12 @@
       $('#divfriendrequests').hide();
     });
   </script>
+  <div id="newFriendRequestAlert" class="alert alert-info alert-dismissible ml-3 mb-5 fade col-4 fixed-bottom" role="alert">
+    Tienes una nueva solicitud de amistad!!
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <footer class="fixed-bottom bg-dark text-white text-center">
     <div class="row justify-content-center">
       <small>

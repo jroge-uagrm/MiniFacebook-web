@@ -8,7 +8,7 @@ use App\Chat;
 use App\Message;
 use App\Contact;
 use Auth;
-use App\Events\FriendRequestSent;
+use App\Events\NewMessage;
 use Carbon\Carbon;
 
 class ChatController extends Controller
@@ -67,8 +67,8 @@ class ChatController extends Controller
             $message->save();
             $chat->messages_amount=$chat->messages_amount+1;
             $chat->save();
-            event(new FriendRequestSent($text));
+            event(new NewMessage($text));
         }
-        // return response()->json("OK",201);
+        return redirect()->back();
     }
 }
