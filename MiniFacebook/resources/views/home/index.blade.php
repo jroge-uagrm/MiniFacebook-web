@@ -145,10 +145,10 @@
         </ul>
     </div>
 </nav>
-<div class="continer h-100">
+<div class="continer" style="height: 88%;">
     <div class="row h-100 w-100">
         <!-- FOUND USERS -->
-        <div class="col-3 m-2 ml-4">
+        <div class="col-3 m-2 ml-4 h-100">
             @if(session()->has('foundUsers'))
             <h5 class="text-center">Usuarios encontrados</h5>
             <ul class="list-group">
@@ -174,12 +174,12 @@
             @endif
         </div>
         <!-- CONTENT -->
-        <div class="col-6 bg-light">
+        <div class="col-6 bg-light h-100">
             @section('content')
             @show
         </div>
         <!-- ONLINE CONTACTS -->
-        <div class="col">
+        <div class="col h-100">
             Contactos conectados
         </div>
     </div>

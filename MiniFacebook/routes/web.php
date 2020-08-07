@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('chats','HomeController@chats')->name('chats');
     Route::get('chat/{userId}','ChatController@index')->name('chat');
-    Route::post('chat/send_message','ChatController@sendMessage')->name('chat.sendMessage');
+    // Route::post('chat/send_message','ChatController@sendMessage')->name('chat.sendMessage');
     
     Route::get('message/{userId}','ChatController@message')->name('message');
 
