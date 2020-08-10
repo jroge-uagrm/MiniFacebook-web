@@ -9,7 +9,7 @@ Route::post('register','AuthController@register')->name('register');
 
 Route::middleware('auth')->group(function () {
     
-    Route::get('home','HomeController@publications')->name('home');
+    Route::get('home','HomeController@index')->name('home');
 
     Route::get('profile/{userId}','UserController@index')->name('profile');
     Route::get('profile_picture/{userId}','UserController@profilePicture')->name('profile_picture');
@@ -28,12 +28,15 @@ Route::middleware('auth')->group(function () {
     Route::get('friend_request_accept/{userId}','FriendRequestController@accept')->name('friendRequest.accept');
     Route::get('friend_request_reject/{userId}','FriendRequestController@reject')->name('friendRequest.reject');
 
-    Route::get('chats','HomeController@chats')->name('chats');
+    Route::get('chats','ChatController@allMine')->name('chats');
     Route::get('chat/{userId}','ChatController@index')->name('chat');
     Route::post('chat/send_message','ChatController@sendMessage')->name('chat.sendMessage');
     
     Route::get('message/{userId}','ChatController@message')->name('message');
 
-    Route::post('notifications','HomeController@notifications')->name('notifications');
+    Route::get('publications/{publicationId}','PublicationController@index')->name('publications.index');
+    Route::post('publications','PublicationController@create')->name('publications.new');
+
+    Route::post('comments','CommentController@create')->name('comments.new');
 
 });

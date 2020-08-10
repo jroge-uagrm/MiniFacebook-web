@@ -13,19 +13,10 @@ use App\Message;
 use Image;
 use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
+use DB;
 
 class HomeController extends Controller
 {
-    public function publications(){
-        $publications=[
-            "publication A",
-            "Publication B",
-            "Publication C",
-            "Publication D",
-        ];
-        return view('home.publications',compact('publications'));
-    }
-
     public function search(Request $request){
         $request->validate([
             'fullName' => 'required',
@@ -41,28 +32,14 @@ class HomeController extends Controller
         );
     }
 
-    public function chats(){
-        $chatsCreator=Chat::where('creator',Auth::user()->id)
-        ->join('users','users.id','invited')
-        ->join('messages','messages.chat_id','chats.id')
-        ->select(
-            'users.id',
-            'users.names',
-            'users.last_names',
-        );
-
-        $chats=Chat::where('invited',Auth::user()->id)
-        ->join('users','users.id','creator')
-        ->join('messages','messages.chat_id','chats.id')
-        ->select(
-            'users.id',
-            'users.names',
-            'users.last_names',
-        )->union($chatsCreator)->get();
-
-        return redirect()->back()->with(
-            'chats',
-            $chats
-        );
+    public function index(){
+        $publications=DB::table('contacts')
+            ->where('user_a',Auth::id())
+            ->join('users','users.id','contacts.user_b')
+            ->join('publications','publications.user_id','users.id')
+            ->orderBy('publications.created_at','desc')
+            ->get();
+            // return $publications;
+        return view('home.publications',compact('publications'));
     }
 }

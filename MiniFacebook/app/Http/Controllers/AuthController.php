@@ -7,6 +7,7 @@ use Auth;
 use Carbon\Carbon;
 use Exception;
 use App\User;
+use App\Contact;
 use Image;
 use Illuminate\Support\Facades\Response;
 
@@ -48,6 +49,11 @@ class AuthController extends Controller
         $user->password=bcrypt($request->password);
         $user->created_at=Carbon::now();
         $user->save();
+        $contact=new Contact();
+        $contact->user_a=$user->id;
+        $contact->user_b=$user->id;
+        $contact->created_at=Carbon::now();
+        $contact->save();
         if (Auth::attempt(['email'=>$request->email,'password'=>$request->password])) {
             return redirect()->route('home');
         }

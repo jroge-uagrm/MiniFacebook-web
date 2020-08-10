@@ -180,7 +180,7 @@
             @endif
         </div>
         <!-- CONTENT -->
-        <div class="col-6 bg-light h-100">
+        <div class="col-6 bg-light h-100 overflow-auto py-2">
             @section('content')
             @show
         </div>

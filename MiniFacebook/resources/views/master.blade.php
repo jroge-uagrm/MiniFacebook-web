@@ -28,6 +28,16 @@
       line-height: .5;
       border-radius: .2rem;
     }
+
+    /* h1:hover,
+    h2:hover,
+    h3:hover,
+    h4:hover,
+    h5:hover,
+    h6:hover,
+    small:hover {
+      cursor: default;
+    } */
   </style>
 </head>
 
@@ -68,7 +78,8 @@
       $('#divfriendrequests').hide();
     });
   </script>
-  <div id="newFriendRequestAlert" class="alert alert-info alert-dismissible ml-3 mb-5 fade col-4 fixed-bottom" role="alert">
+  <div id="newFriendRequestAlert" class="alert alert-info alert-dismissible ml-3 mb-5 fade col-4 fixed-bottom"
+    role="alert">
     Tienes una nueva solicitud de amistad!!
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>

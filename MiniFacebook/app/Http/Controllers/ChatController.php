@@ -10,6 +10,7 @@ use App\Contact;
 use Auth;
 use App\Events\NewMessage;
 use Carbon\Carbon;
+use DB;
 
 class ChatController extends Controller
 {
@@ -31,6 +32,30 @@ class ChatController extends Controller
             $messages=array_reverse($messages->toArray());
         }
         return view('home.chat',compact('user','messages'));
+    }
+
+    public function allMine(){
+        $chatsCreator=Chat::where('creator',Auth::user()->id)
+        ->join('users','users.id','invited')
+        ->join('messages','messages.chat_id','chats.id')
+        ->select(
+            'users.id',
+            'users.names',
+            'users.last_names',
+        );
+        $chats=Chat::where('invited',Auth::user()->id)
+        ->join('users','users.id','creator')
+        ->join('messages','messages.chat_id','chats.id')
+        ->select(
+            'users.id',
+            'users.names',
+            'users.last_names',
+        )->union($chatsCreator)->get();
+
+        return redirect()->back()->with(
+            'chats',
+            $chats
+        );
     }
 
     public function sendMessage(Request $request){
