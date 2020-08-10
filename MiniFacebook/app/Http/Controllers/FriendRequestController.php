@@ -8,6 +8,7 @@ use App\FriendRequest;
 use Auth;
 use Carbon\Carbon;
 use App\Events\FriendRequestSent;
+use App\Events\FriendRequestAccepted;
 
 
 class FriendRequestController extends Controller
@@ -78,6 +79,12 @@ class FriendRequestController extends Controller
             $contact->user_a=Auth::user()->id;
             $contact->created_at=Carbon::now();
             $contact->save();
+            $data=[
+                'sender'=>Auth::id(),
+                'names'=>Auth::user()->names,
+                'receiverId'=>$userId
+            ];
+            event(new FriendRequestAccepted($data));
             return redirect()->back()->with(
                 'success',
                 'Amigo aceptado.'

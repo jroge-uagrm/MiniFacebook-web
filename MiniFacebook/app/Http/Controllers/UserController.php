@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\User;
 use App\Contact;
 use App\FriendRequest;
+use App\Publication;
 use Auth;
 use Image;
 use Exception;
@@ -30,7 +31,13 @@ class UserController extends Controller
             ['requesting',Auth::user()->id],
             ['requested',$user->id]
         ])->first()==null;
-        return view('user.index',compact('user','isFriend','availableToSendFriendRequest'));
+        $publications=Publication::where('user_id',$user->id)->get();
+        return view('user.index',compact(
+            'user',
+            'isFriend',
+            'availableToSendFriendRequest',
+            'publications'
+        ));
     }
 
     public function profilePicture($userId){

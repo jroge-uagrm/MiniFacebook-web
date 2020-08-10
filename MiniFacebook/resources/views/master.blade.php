@@ -80,18 +80,26 @@
   </script>
   <div id="newFriendRequestAlert" class="alert alert-info alert-dismissible ml-3 mb-5 fade col-md-3 fixed-bottom"
     role="alert">
-    Tienes una nueva solicitud de amistad!!
+    Tienes una nueva solicitud de amistad.
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div id="newMessage" class="alert alert-info alert-dismissible ml-3 mb-5 fade col-md-3 fixed-bottom"
-    role="alert">
+  <div id="newMessage" class="alert alert-info alert-dismissible ml-3 mb-5 fade col-md-3 fixed-bottom" role="alert">
     Mensaje de: <strong id="newMessageUserNames">
-  </strong>
-  <div class="float-right">
-    <a class="text-info font-weight-bold" id="newMessageHref" href="#">Ver</a>
+    </strong>
+    <div class="float-right">
+      <a class="text-info font-weight-bold" id="newMessageHref" href="#">Ver</a>
+    </div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
+  <div id="newFriendRequestAcceptedAlert" class="alert alert-info alert-dismissible ml-3 mb-5 fade col-md-3 fixed-bottom" role="alert">
+    <strong id="FriendRequestAcceptedUserNames"></strong> ha aceptado tu soicitud.
+    <div class="float-right">
+      <a class="text-info font-weight-bold" id="FriendRequestAcceptedHref" href="#">Ver</a>
+    </div>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>

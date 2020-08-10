@@ -24,8 +24,9 @@
         </ul>
         <ul class="my-md-0 my-sm-3 navbar-nav col-md-4 col-sm-12 justify-content-center align-items-center">
             <li class="nav-item mx-3">
-                <a href="{{route('home')}}" class="text-dark">
-                    <img src="/images/logo.png" width="30" height="30">
+                <a href="{{route('home')}}" class="btn btn-info text-dark border border-dark">
+                    <!-- <img src="/images/logo.png" width="30" height="30"> -->
+                    Inicio
                 </a>
             </li>
         </ul>
@@ -150,7 +151,7 @@
 <div class="continer" style="height: 88%;">
     <div class="row h-100 w-100">
         <!-- FOUND USERS -->
-        <div class="col-3 m-2 ml-4 h-100">
+        <div class="col-3 m-2 ml-4 h-100 overflow-auto">
             @if(session()->has('foundUsers'))
             <h5 class="text-center">Usuarios encontrados</h5>
             <ul class="list-group">
@@ -181,7 +182,7 @@
             @show
         </div>
         <!-- ONLINE CONTACTS -->
-        <div class="col h-100">
+        <div class="col h-100 overflow-auto">
             Contactos conectados
         </div>
     </div>
@@ -196,8 +197,7 @@
     });
     var channel = pusher.subscribe('my-channel');
     channel.bind('new-message', function (data) {
-        console.log(data.data);
-        @if (Request::is('chat/*'))
+        @if (Request:: is('chat/*'))
         manageMessage(data);
         @else
         var alert = document.getElementById("newMessage");
@@ -205,14 +205,25 @@
         var userNames = document.getElementById("newMessageUserNames");
         var message = document.createTextNode(data.data.names);
         userNames.appendChild(message);
-        var hrefNewMessage=document.getElementById('newMessageHref');
-        hrefNewMessage.setAttribute('href','chat/'+data.data.senderId);
+        var hrefNewMessage = document.getElementById('newMessageHref');
+        hrefNewMessage.setAttribute('href', 'chat/' + data.data.senderId);
         @endif
     });
     channel.bind('friend-request', function (data) {
         if (data.data.userId == "{{ Auth:: id() }}") {
             var alert = document.getElementById("newFriendRequestAlert");
             alert.className += " show ";
+        }
+    });
+    channel.bind('friend-request-accepted', function (data) {
+        if (data.data.receiver == "{{ Auth:: id() }}") {
+            var alert = document.getElementById("newFriendRequestAcceptedAlert");
+            alert.className += " show ";
+            var userNames = document.getElementById("FriendRequestAcceptedUserNames");
+            var message = document.createTextNode(data.data.names);
+            userNames.appendChild(message);
+            var hrefNewMessage = document.getElementById('FriendRequestAcceptedHref');
+            hrefNewMessage.setAttribute('href', 'profile/' + data.data.senderId);
         }
     });
 </script>

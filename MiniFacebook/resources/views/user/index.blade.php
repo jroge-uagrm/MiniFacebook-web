@@ -40,63 +40,129 @@
             </div>
         </div>
     </div>
-    <div class="card-header bg-light">
-        <ul class="nav nav-tabs card-header-tabs">
-            <li class="nav-item">
-                <a class="nav-link text-info tablinks active" onclick="openCity(event, 'informationCollapse')" data-toggle="collapse" href="#informationCollapse">
-                    <strong>
-                        Información
-                    </strong>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-info tablinks " onclick="openCity(event, 'publicationsCollapse')" data-toggle="collapse" href="#publicationsCollapse">
-                    <strong>
-                        Link
-                    </strong>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="card-body collapse tabcontent" id="informationCollapse">
-        <div class="row">
-            <div class="col-4">
-                <h5 class="text-right">
-                    Correo electrónico
-                </h5>
-            </div>
-            <div class="col">
-                <label>{{$user->email}}</label>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active text-info" id="home-tab" data-toggle="tab" href="#home"
+                role="tab" aria-controls="home" aria-selected="true">
+                Información
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-info" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                aria-controls="profile" aria-selected="false">
+                Publicaciones
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="container">
+                <div class="row my-3 border-bottom border-muted">
+                    <div class="col-4 text-right">
+                        <strong>
+                            Nombres:
+                        </strong>
+                    </div>
+                    <div class="col text-left">
+                        {{$user->names}}
+                    </div>
+                </div>
+                <div class="row my-3 border-bottom border-muted">
+                    <div class="col-4 text-right">
+                        <strong>
+                            Apellidos:
+                        </strong>
+                    </div>
+                    <div class="col text-left">
+                        {{$user->last_names}}
+                    </div>
+                </div>
+                <div class="row my-3 border-bottom border-muted">
+                    <div class="col-4 text-right">
+                        <strong>
+                            Fecha de nacimiento:
+                        </strong>
+                    </div>
+                    <div class="col text-left">
+                        {{$user->birthday}}
+                    </div>
+                </div>
+                <div class="row my-3 border-bottom border-muted">
+                    <div class="col-4 text-right">
+                        <strong>
+                            Sexo:
+                        </strong>
+                    </div>
+                    <div class="col text-left">
+                        {{$user->sex=='M'?'Masculino':'Femenino'}}
+                    </div>
+                </div>
+                <div class="row my-3 border-bottom border-muted">
+                    <div class="col-4 text-right">
+                        <strong>
+                            Correo:
+                        </strong>
+                    </div>
+                    <div class="col text-left">
+                        {{$user->email}}
+                    </div>
+                </div>
+                <div class="row my-3 border-bottom border-muted">
+                    <div class="col-4 text-right">
+                        <strong>
+                            Nro. celular:
+                        </strong>
+                    </div>
+                    <div class="col text-left">
+                        {{$user->phone_number??'No tiene'}}
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-4 text-right">
+                        <strong>
+                            Se unió:
+                        </strong>
+                    </div>
+                    <div class="col text-left">
+                        {{$user->created_at->diffForHumans()}}
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-4">
-                <h5 class="text-right">
-                    Cumpleaños
-                </h5>
-            </div>
-            <div class="col">
-                <label>{{$user->birthday}}</label>
-            </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <ul class="list-group">
+                @forelse($publications as $publication)
+                <li class="list-group-item list-group-item-action my-2 border boder-info rounded">
+                    <div class="container">
+                        <div class="row justify-content-between">
+                            <a class="text-info h6" href="{{route('profile',$publication->user_id)}}">
+                                {{$user->names}}
+                            </a>
+                            <small class="text-muted">
+                                {{Carbon\Carbon::parse($publication->created_at)->locale('es_ES')->isoFormat('LLLL')}}
+                            </small>
+                        </div>
+                        <div class="row">
+                            <label>{{$publication->content}}</label>
+                        </div>
+                        <div class="row justify-content-between mt-3">
+                            <small class="text-muted">
+                                {{count(App\Comment::where('publication_id',$publication->id)->get())}} comentarios
+                            </small>
+                            <a class="btn btn-outline-info btn-sm"
+                                href="{{route('publications.index',$publication->id)}}" role="button">
+                                Ver publicación
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                @empty
+                <div class="list-group-item">
+                    No hay publicaciones para mostrar
+                </div>
+                @endforelse
+            </ul>
         </div>
-    </div>
-    <div class="card-body collapse tabcontent" id="publicationsCollapse">
-        PU
     </div>
 </div>
-<script>
-    function openCity(evt, cityName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(cityName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
-</script>
 @endsection
