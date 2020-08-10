@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('friend_request_reject/{userId}','FriendRequestController@reject')->name('friendRequest.reject');
 
     Route::get('chats','ChatController@allMine')->name('chats');
-    Route::get('chat/{userId}','ChatController@index')->name('chat');
+    Route::get('chat/{userId}','ChatController@index')->name('chat.index');
     Route::post('chat/send_message','ChatController@sendMessage')->name('chat.sendMessage');
     
     Route::get('message/{userId}','ChatController@message')->name('message');

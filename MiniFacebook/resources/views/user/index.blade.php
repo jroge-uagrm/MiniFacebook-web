@@ -18,7 +18,7 @@
                 <a href="{{route('friend.delete',$user->id)}}" class="btn btn-danger">
                     Eliminar
                 </a>
-                <a href="{{route('chat',$user->id)}}" class="btn btn-info">
+                <a href="{{route('chat.index',$user->id)}}" class="btn btn-info">
                     Enviar mensaje
                 </a>
                 @else

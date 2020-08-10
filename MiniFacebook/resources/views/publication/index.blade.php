@@ -30,9 +30,9 @@
                 <li class="list-group-item list-group-item-action my-2 border boder-info rounded">
                     <div class="container">
                         <div class="row justify-content-between">
-                            <h6 class="text-dark">
+                            <a class="text-info h6" href="{{route('profile',$comment->user_id)}}">
                                 {{$comment->names}}
-                            </h6>
+                            </a>
                             <small class="text-dark">
                                 {{Carbon\Carbon::parse($comment->created_at)->locale('es_ES')->isoFormat('LLLL')}}
                             </small>

@@ -39,7 +39,6 @@ class HomeController extends Controller
             ->join('publications','publications.user_id','users.id')
             ->orderBy('publications.created_at','desc')
             ->get();
-            // return $publications;
         return view('home.publications',compact('publications'));
     }
 }

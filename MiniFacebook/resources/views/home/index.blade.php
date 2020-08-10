@@ -47,23 +47,19 @@
                     <div class="dropdown-menu dropdown-menu-right col-8 p-0 show" id="divmessages">
                         <div class="list-group rounded">
                             @forelse(session()->get('chats') as $chat)
-                            <a href="{{route('chat',$chat->id)}}" class="list-group-item list-group-item-action">
+                            <a href="{{route('chat.index',$chat->id)}}" class="list-group-item list-group-item-action">
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-3 p-0">
-                                            <img src="{{route('profile_picture',1)}}" width="100%" height="100%">
+                                            <img src="{{route('profile_picture',$chat->id)}}" width="100%"
+                                                height="100%">
                                         </div>
                                         <div class="col p-0">
                                             <div class="container">
                                                 <div class="row w-100">
                                                     <div class="col">
-                                                        {{$chat->names}} {{$chat->paternal_surname}}
-                                                        {{$chat->maternal_surname}}
-                                                    </div>
-                                                </div>
-                                                <div class="row w-100">
-                                                    <div class="col">
-                                                        Mensaje
+                                                        <h6>{{$chat->names}}</h6>
+                                                        Hi
                                                     </div>
                                                 </div>
                                             </div>
@@ -200,7 +196,18 @@
     });
     var channel = pusher.subscribe('my-channel');
     channel.bind('new-message', function (data) {
+        console.log(data.data);
+        @if (Request::is('chat/*'))
         manageMessage(data);
+        @else
+        var alert = document.getElementById("newMessage");
+        alert.className += " show ";
+        var userNames = document.getElementById("newMessageUserNames");
+        var message = document.createTextNode(data.data.names);
+        userNames.appendChild(message);
+        var hrefNewMessage=document.getElementById('newMessageHref');
+        hrefNewMessage.setAttribute('href','chat/'+data.data.senderId);
+        @endif
     });
     channel.bind('friend-request', function (data) {
         if (data.data.userId == "{{ Auth:: id() }}") {

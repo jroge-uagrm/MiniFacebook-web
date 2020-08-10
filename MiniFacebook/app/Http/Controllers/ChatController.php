@@ -51,7 +51,6 @@ class ChatController extends Controller
             'users.names',
             'users.last_names',
         )->union($chatsCreator)->get();
-
         return redirect()->back()->with(
             'chats',
             $chats
@@ -63,6 +62,7 @@ class ChatController extends Controller
             'senderId'=>Auth::id(),
             'receiverId'=>$request->receiverId,
             'content'=>$request->content,
+            'names'=>Auth::user()->names,
         ];
         if(Contact::where([
             ['user_a',Auth::id()],
@@ -91,6 +91,7 @@ class ChatController extends Controller
             $message->created_at=Carbon::now();
             $message->save();
             $chat->messages_amount=$chat->messages_amount+1;
+            $chat->updated_at=Carbon::now();
             $chat->save();
             event(new NewMessage($text));
         }

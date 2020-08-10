@@ -78,9 +78,20 @@
       $('#divfriendrequests').hide();
     });
   </script>
-  <div id="newFriendRequestAlert" class="alert alert-info alert-dismissible ml-3 mb-5 fade col-4 fixed-bottom"
+  <div id="newFriendRequestAlert" class="alert alert-info alert-dismissible ml-3 mb-5 fade col-md-3 fixed-bottom"
     role="alert">
     Tienes una nueva solicitud de amistad!!
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div id="newMessage" class="alert alert-info alert-dismissible ml-3 mb-5 fade col-md-3 fixed-bottom"
+    role="alert">
+    Mensaje de: <strong id="newMessageUserNames">
+  </strong>
+  <div class="float-right">
+    <a class="text-info font-weight-bold" id="newMessageHref" href="#">Ver</a>
+  </div>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
