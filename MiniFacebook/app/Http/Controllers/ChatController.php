@@ -35,21 +35,25 @@ class ChatController extends Controller
     }
 
     public function allMine(){
-        $chatsCreator=Chat::where('creator',Auth::user()->id)
+        $chatsCreator=Chat::where('creator',Auth::id())
         ->join('users','users.id','invited')
         ->join('messages','messages.chat_id','chats.id')
+        ->join('contacts','contacts.user_b','chats.invited')
         ->select(
             'users.id',
             'users.names',
             'users.last_names',
+            'chats.updated_at',
         );
-        $chats=Chat::where('invited',Auth::user()->id)
+        $chats=Chat::where('invited',Auth::id())
         ->join('users','users.id','creator')
         ->join('messages','messages.chat_id','chats.id')
+        ->join('contacts','contacts.user_b','chats.creator')
         ->select(
             'users.id',
             'users.names',
             'users.last_names',
+            'chats.updated_at',
         )->union($chatsCreator)->get();
         return redirect()->back()->with(
             'chats',

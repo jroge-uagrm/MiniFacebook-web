@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('publications/{publicationId}','PublicationController@index')->name('publications.index');
     Route::post('publications','PublicationController@create')->name('publications.new');
+    Route::get('publications_delete/{publicationId}','PublicationController@delete')->name('publications.delete');
 
     Route::post('comments','CommentController@create')->name('comments.new');
 

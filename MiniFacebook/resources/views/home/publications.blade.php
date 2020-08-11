@@ -6,13 +6,15 @@
             <h5>¿Quieres publicar algo?</h5>
         </div>
     </div>
-    <div class="row">
+    <div class="row border-bottom border-info my-3">
         <form class="col" action="{{route('publications.new')}}" method="post">
             {{csrf_field()}}
-            <textarea class="form-control border border-dark rounded" name="content" rows="2"
+            <textarea class="form-control rounded" name="content" rows="2"
                 placeholder="Escribe algo..."></textarea>
+                {!!$errors->first('content','<small
+                                    class="text-danger font-weight-bold">:message</small>')!!}
             <div class="float-right mt-1 mb-3">
-                <button type="submit" class="btn btn-sm btn-info">
+                <button type="submit" class="btn btn-info badge badge-info">
                     Publicar
                 </button>
             </div>
@@ -39,7 +41,12 @@
                             <small class="text-muted">
                                 {{count(App\Comment::where('publication_id',$publication->id)->get())}} comentarios
                             </small>
-                            <a class="btn btn-outline-info btn-sm"
+                            @if($publication->user_id==Auth::id())
+                            <a href="{{route('publications.delete',$publication->id)}}" class="badge badge-danger">
+                                Eliminar publicación
+                            </a>
+                            @endif
+                            <a class="badge badge-info"
                                 href="{{route('publications.index',$publication->id)}}" role="button">
                                 Ver publicación
                             </a>

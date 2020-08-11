@@ -55,6 +55,7 @@
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
+        <!-- INFORMATION -->
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="container">
                 <div class="row my-3 border-bottom border-muted">
@@ -129,6 +130,7 @@
                 </div>
             </div>
         </div>
+        <!-- PUBLICATIONS -->
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <ul class="list-group">
                 @forelse($publications as $publication)
@@ -149,7 +151,12 @@
                             <small class="text-muted">
                                 {{count(App\Comment::where('publication_id',$publication->id)->get())}} comentarios
                             </small>
-                            <a class="btn btn-outline-info btn-sm"
+                            @if($publication->user_id==Auth::id())
+                            <a href="{{route('publications.delete',$publication->id)}}" class="badge badge-danger">
+                                Eliminar publicación
+                            </a>
+                            @endif
+                            <a class="badge badge-info"
                                 href="{{route('publications.index',$publication->id)}}" role="button">
                                 Ver publicación
                             </a>

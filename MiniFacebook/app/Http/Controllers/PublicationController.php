@@ -33,4 +33,14 @@ class PublicationController extends Controller
         $publication->save();
         return redirect()->back();
     }
+
+    public function delete($publicationId){
+        $publication=Publication::find($publicationId);
+        Comment::where('publication_id',$publicationId)->delete();
+        $publication->delete();
+        return redirect()->back()->with(
+            'success',
+            'Eliminado correctamente'
+        );
+    }
 }

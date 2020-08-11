@@ -10,10 +10,10 @@ class ContactController extends Controller
 {
     public function delete($userId){
         Contact::where([
-            ['user_a',Auth::user()->id],
+            ['user_a',Auth::id()],
             ['user_b',$userId]
         ])->orWhere([
-            ['user_b',Auth::user()->id],
+            ['user_b',Auth::id()],
             ['user_a',$userId]
         ])->delete();
         return redirect()->back()->with(

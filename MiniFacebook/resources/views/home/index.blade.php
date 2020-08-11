@@ -1,6 +1,7 @@
 @extends('master')
 @section('body')
-<nav class="navbar navbar-expand-lg navbar-light bg-info bg-info sticky-top">
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light bg-info sticky-top">
     <button class="navbar-toggler mb-3" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -40,6 +41,7 @@
                         {{Auth::user()->names}}
                     </a>
                 </li>
+                <!-- CHATS -->
                 <li class="nav-item mx-3">
                     <a href="{{route('chats')}}">
                         <img src="/images/icon-messages.png" width="30" height="30">
@@ -60,7 +62,7 @@
                                                 <div class="row w-100">
                                                     <div class="col">
                                                         <h6>{{$chat->names}}</h6>
-                                                        Hi
+                                                        {{$chat->updated_at->diffForHumans()}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -77,6 +79,7 @@
                     </div>
                     @endif
                 </li>
+                <!-- FRIEND REQUEST -->
                 <li class="nav-item mx-3">
                     <a href="{{route('friendRequest.allMine')}}">
                         <img src="/images/icon-friends.png" width="30" height="30">
@@ -98,25 +101,17 @@
                                             <div class="container">
                                                 <div class="row w-100">
                                                     <div class="col">
-                                                        <small>
-                                                            <a href="{{route('profile',$friendRequest->id)}}"
-                                                                class="text-dark font-weight-bold">
-                                                                {{$friendRequest->names}}
-                                                                {{$friendRequest->last_names}}
-                                                            </a>
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                                <div class="row w-100 mt-2">
-                                                    <div class="col">
+                                                        <a href="{{route('profile',$friendRequest->id)}}"
+                                                            class="text-dark font-weight-bold">
+                                                            {{$friendRequest->names}} <br>
+                                                            {{$friendRequest->last_names}}
+                                                        </a>
                                                         <a href="{{route('friendRequest.accept',$friendRequest->id)}}"
-                                                            class="btn btn-sm btn-info">
+                                                            class="badge badge-info">
                                                             Aceptar
                                                         </a>
-                                                    </div>
-                                                    <div class="col">
                                                         <a href="{{route('friendRequest.reject',$friendRequest->id)}}"
-                                                            class="btn btn-sm btn-danger">
+                                                            class="badge badge-danger">
                                                             Rechazar
                                                         </a>
                                                     </div>
@@ -135,6 +130,7 @@
                     </div>
                     @endif
                 </li>
+                <!-- CONFIGURATIONS AND LOG OUT -->
                 <li class="nav-item mx-3">
                     <a type="button" data-toggle="dropdown">
                         <img src="/images/icon-configurations.png" width="30" height="30">
@@ -155,7 +151,7 @@
             @if(session()->has('foundUsers'))
             <h5 class="text-center">Usuarios encontrados</h5>
             <ul class="list-group">
-                @foreach(session()->get('foundUsers') as $foundUser)
+                @forelse(session()->get('foundUsers') as $foundUser)
                 <a href="{{route('profile',$foundUser->id)}}">
                     <li class="list-group-item list-group-item-action border border-info rounded">
                         <div class="row">
@@ -170,14 +166,22 @@
                         </div>
                     </li>
                 </a>
-                @endforeach
+                @empty
+                <div class="row">
+                    <div class="col text-center">
+                        <h7 class="">
+                            Ninguno
+                        </h7>
+                    </div>
+                </div>
+                @endforelse
             </ul>
             @else
             <h5 class="text-center">Busca más usuarios para conectarte con ellos</h5>
             @endif
         </div>
         <!-- CONTENT -->
-        <div class="col-6 bg-light h-100 overflow-auto py-2">
+        <div class="col-6 bg-light h-100 overflow-auto py-2 border border-info">
             @section('content')
             @show
         </div>
@@ -187,45 +191,4 @@
         </div>
     </div>
 </div>
-<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-@auth
-<script>
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
-    var pusher = new Pusher('9b29f0feb3d83af18247', {
-        cluster: 'us2'
-    });
-    var channel = pusher.subscribe('my-channel');
-    channel.bind('new-message', function (data) {
-        @if (Request:: is('chat/*'))
-        manageMessage(data);
-        @else
-        var alert = document.getElementById("newMessage");
-        alert.className += " show ";
-        var userNames = document.getElementById("newMessageUserNames");
-        var message = document.createTextNode(data.data.names);
-        userNames.appendChild(message);
-        var hrefNewMessage = document.getElementById('newMessageHref');
-        hrefNewMessage.setAttribute('href', 'chat/' + data.data.senderId);
-        @endif
-    });
-    channel.bind('friend-request', function (data) {
-        if (data.data.userId == "{{ Auth:: id() }}") {
-            var alert = document.getElementById("newFriendRequestAlert");
-            alert.className += " show ";
-        }
-    });
-    channel.bind('friend-request-accepted', function (data) {
-        if (data.data.receiver == "{{ Auth:: id() }}") {
-            var alert = document.getElementById("newFriendRequestAcceptedAlert");
-            alert.className += " show ";
-            var userNames = document.getElementById("FriendRequestAcceptedUserNames");
-            var message = document.createTextNode(data.data.names);
-            userNames.appendChild(message);
-            var hrefNewMessage = document.getElementById('FriendRequestAcceptedHref');
-            hrefNewMessage.setAttribute('href', 'profile/' + data.data.senderId);
-        }
-    });
-</script>
-@endauth
 @endsection

@@ -31,7 +31,7 @@ class UserController extends Controller
             ['requesting',Auth::user()->id],
             ['requested',$user->id]
         ])->first()==null;
-        $publications=Publication::where('user_id',$user->id)->get();
+        $publications=Publication::where('user_id',$user->id)->orderBy('created_at','desc')->get();
         return view('user.index',compact(
             'user',
             'isFriend',

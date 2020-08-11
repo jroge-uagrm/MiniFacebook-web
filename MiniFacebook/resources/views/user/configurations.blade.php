@@ -13,7 +13,7 @@
                 <input type="text" name="names" class="form-control" value="{{old('names') ?? Auth::user()->names}}">
                 {!!$errors->first('names','<small class="text-danger font-weight-bold">:message</small>')!!}
             </div>
-            <div class="form-group form-row">
+            <div class="form-group">
                 <label>Apellidos</label>
                 <input type="text" name="last_names" class="form-control"
                     value="{{old('paternal_surname') ?? Auth::user()->last_names}}">
