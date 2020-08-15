@@ -5,10 +5,20 @@
     <div class="row ">
         <div class="col">
             <div class="container">
-                <div class="row justify-content-between">
-                    <h4>
-                        {{$publication->names}}
-                    </h4>
+                <div class="row justify-content-between mb-2">
+                    <div class="col-md-2">
+                        <div class="row align-items-center">
+                            <div class="col-6 p-0">
+                                <img src="{{route('profile_picture',$publication->user_id)}}" width="100%"
+                                    height="100%">
+                            </div>
+                            <div class="col p-0 pl-2">
+                                <a class="text-info h6" href="{{route('profile',$publication->user_id)}}">
+                                    {{$publication->names}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                     <small class="text-muted">
                         {{Carbon\Carbon::parse($publication->created_at)->locale('es_ES')->isoFormat('LLLL')}}
                     </small>

@@ -95,7 +95,8 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div id="newFriendRequestAcceptedAlert" class="collapse alert alert-info alert-dismissible ml-3 mb-5  col-md-3 fixed-bottom" role="alert">
+  <div id="newFriendRequestAcceptedAlert"
+    class="collapse alert alert-info alert-dismissible ml-3 mb-5  col-md-3 fixed-bottom" role="alert">
     <strong id="FriendRequestAcceptedUserNames"></strong> ha aceptado tu soicitud.
     <div class="float-right">
       <a class="text-info font-weight-bold" id="FriendRequestAcceptedHref" href="#">Ver</a>
@@ -105,54 +106,75 @@
     </button>
   </div>
   <footer class="fixed-bottom bg-dark text-white text-center">
-    <div class="row justify-content-center">
-      <small>
-        © Grupo 8 - SA
-      </small>
+    <?php
+    $visit = 1;
+    if(file_exists("counter.txt")) {
+        $fp    = fopen("counter.txt", "r");
+        $visit = fread($fp, 4);
+        fclose($fp);
+    }
+    ?>
+    <div class="row">
+      <div class="col-4">
+        <small>
+          Visitas/Ingresos: {{$visit}}
+        </small>
+      </div>
+      <div class="col-4">
+        <small>
+          © Grupo 8 - SA
+        </small>
+      </div>
+      <div class="col">
+        <small>
+          Usuarios registrados: {{count(App\User::all())}}
+        </small>
+      </div>
     </div>
   </footer>
 </body>
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 @auth
 <script>
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
-    var pusher = new Pusher('9b29f0feb3d83af18247', {
-        cluster: 'us2'
+  // Enable pusher logging - don't include this in production
+  Pusher.logToConsole = true;
+  var pusher = new Pusher('9b29f0feb3d83af18247', {
+    cluster: 'us2'
+  });
+  var channel = pusher.subscribe('my-channel');
+  channel.bind('new-message', function (data) {
+    @if (Request:: is('chat/*'))
+  manageMessage(data);
+  @else
+  var alert = document.getElementById("newMessage");
+  alert.className += " show ";
+  var userNames = document.getElementById("newMessageUserNames");
+  var message = document.createTextNode(data.data.names);
+  if (userNames.childNodes.length == 1) {
+    userNames.appendChild(message);
+  }
+  var hrefNewMessage = document.getElementById('newMessageHref');
+  hrefNewMessage.setAttribute('href', 'chat/' + data.data.senderId);
+  @endif
     });
-    var channel = pusher.subscribe('my-channel');
-    channel.bind('new-message', function (data) {
-        @if (Request:: is('chat/*'))
-    manageMessage(data);
-    @else
-    var alert = document.getElementById("newMessage");
-    alert.className += " show ";
-    var userNames = document.getElementById("newMessageUserNames");
-    var message = document.createTextNode(data.data.names);
-    if(userNames.childNodes.length==1){
-        userNames.appendChild(message);
+  channel.bind('friend-request', function (data) {
+    if (data.data.userId == "{{ Auth:: id() }}") {
+      var alert = document.getElementById("newFriendRequestAlert");
+      alert.className += " show ";
     }
-    var hrefNewMessage = document.getElementById('newMessageHref');
-    hrefNewMessage.setAttribute('href', 'chat/' + data.data.senderId);
-    @endif
-    });
-    channel.bind('friend-request', function (data) {
-        if (data.data.userId == "{{ Auth:: id() }}") {
-            var alert = document.getElementById("newFriendRequestAlert");
-            alert.className += " show ";
-        }
-    });
-    channel.bind('friend-request-accepted', function (data) {
-        if (data.data.receiver == "{{ Auth:: id() }}") {
-            var alert = document.getElementById("newFriendRequestAcceptedAlert");
-            alert.className += " show ";
-            var userNames = document.getElementById("FriendRequestAcceptedUserNames");
-            var message = document.createTextNode(data.data.names);
-            userNames.appendChild(message);
-            var hrefNewMessage = document.getElementById('FriendRequestAcceptedHref');
-            hrefNewMessage.setAttribute('href', 'profile/' + data.data.senderId);
-        }
-    });
+  });
+  channel.bind('friend-request-accepted', function (data) {
+    if (data.data.receiver == "{{ Auth:: id() }}") {
+      var alert = document.getElementById("newFriendRequestAcceptedAlert");
+      alert.className += " show ";
+      var userNames = document.getElementById("FriendRequestAcceptedUserNames");
+      var message = document.createTextNode(data.data.names);
+      userNames.appendChild(message);
+      var hrefNewMessage = document.getElementById('FriendRequestAcceptedHref');
+      hrefNewMessage.setAttribute('href', 'profile/' + data.data.senderId);
+    }
+  });
 </script>
 @endauth
+
 </html>

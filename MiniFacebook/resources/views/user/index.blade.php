@@ -133,6 +133,7 @@
         <!-- PUBLICATIONS -->
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <ul class="list-group">
+            @if($isFriend)
                 @forelse($publications as $publication)
                 <li class="list-group-item list-group-item-action my-2 border boder-info rounded">
                     <div class="container">
@@ -144,8 +145,8 @@
                                 {{Carbon\Carbon::parse($publication->created_at)->locale('es_ES')->isoFormat('LLLL')}}
                             </small>
                         </div>
-                        <div class="row">
-                            <label>{{$publication->content}}</label>
+                        <div class="row overflow-auto text-justify">
+                            <p>{{$publication->content}}</p>
                         </div>
                         <div class="row justify-content-between mt-3">
                             <small class="text-muted">
@@ -168,6 +169,17 @@
                     No hay publicaciones para mostrar
                 </div>
                 @endforelse
+                @else
+                <li class="list-group-item list-group-item-action border boder-info rounded">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <p class="text-center">
+                            Solo los contactos de <strong>&nbsp{{$user->names}}&nbsp</strong> pueden ver sus publicaciones
+</p>
+                        </div>
+                    </div>
+                </li>
+                @endif
             </ul>
         </div>
     </div>

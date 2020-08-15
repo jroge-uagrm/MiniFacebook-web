@@ -62,7 +62,7 @@ class UserController extends Controller
         $user=Auth::user();
         $user->names=$request->names;
         $user->last_names=$request->last_names;
-        $user->full_name=$request->names.' '.$request->last_names;
+        // $user->full_name=$request->names.' '.$request->last_names;
         $user->phone_number=$request->phone_number;
         $user->birthday=$request->birthday;
         if($user->email!=$request->email){

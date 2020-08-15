@@ -187,7 +187,54 @@
         </div>
         <!-- ONLINE CONTACTS -->
         <div class="col h-100 overflow-auto">
-            Contactos conectados
+            <h5 class="text-center">Contactos</h5>
+            <?php
+            $contacts=App\Contact::where('user_a',Auth::id())
+            ->join('users','users.id','contacts.user_b')
+            ->where('contacts.user_b','<>',Auth::id())
+            ->get();
+            ?>
+            <ul class="list-group">
+                @forelse($contacts as $contact)
+                <a href="{{route('profile',$contact->id)}}">
+                    <li class="list-group-item list-group-item-action border border-info rounded">
+                        <div class="row">
+                            <div class="col-3 p-0">
+                                <a href="{{route('profile',$contact->id)}}">
+                                    <img src="{{route('profile_picture',$contact->id)}}" width="100%"
+                                        height="100%">
+                                </a>
+                            </div>
+                            <div class="col p-0">
+                                <div class="container">
+                                    <div class="row w-100">
+                                        <div class="col">
+                                            <a href="{{route('profile',$contact->id)}}"
+                                                class="text-dark font-weight-bold">
+                                                {{$contact->names}} <br>
+                                                {{$contact->last_names}}
+                                            </a>
+                                            <a href="{{route('chat.index',$contact->id)}}"
+                                                class="badge badge-info">
+                                                Abrir chat
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </a>
+                @empty
+                <div class="row">
+                    <div class="col text-center">
+                        <h7 class="">
+                            No tienes contactos
+                        </h7>
+                    </div>
+                </div>
+                @endforelse
+            </ul>
         </div>
     </div>
 </div>

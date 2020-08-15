@@ -9,11 +9,13 @@ use App\User;
 use App\Friend;
 use App\FriendRequest;
 use App\Chat;
+use App\Contact;
 use App\Message;
 use Image;
 use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
 use DB;
+use Cache;
 
 class HomeController extends Controller
 {
@@ -23,9 +25,12 @@ class HomeController extends Controller
         ]);
         $user=Auth::user();
         $foundUsers=User::where([
-            ['full_name','like','%'.$request->fullName.'%'],
+            ['names','like','%'.$request->fullName.'%'],
             ['id','<>',$user->id]
-        ])->take(10)->get();
+        ])->orWhere([
+            ['last_names','like','%'.$request->fullName.'%'],
+            ['id','<>',$user->id]
+        ])->get();
         return redirect()->back()->with(
             'foundUsers',
             $foundUsers

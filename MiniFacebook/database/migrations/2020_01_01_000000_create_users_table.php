@@ -17,12 +17,13 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('names');
             $table->string('last_names');
-            $table->string('full_name');
             $table->string('phone_number')->nullable();
             $table->string('email');
             $table->date('birthday')->nullable();
             $table->string('password');
             $table->char('sex');
+            $table->unsignedBigInteger('role_id');
+            $table->foreign('role_id')->references('id')->on('roles');
             $table->timestamps();
         });
     }

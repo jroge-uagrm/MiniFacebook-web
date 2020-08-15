@@ -27,7 +27,7 @@
 </style>
 <div class="container-fluid h-100 font-weight-bold">
     <div class="row h-100">
-        <div class="col-md-7 col-sm-12 bg-info">
+        <div class="col-md-6 col-sm-12 bg-info">
             <div class="container-fluid h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-md-6 mx-auto mb-4">
@@ -112,4 +112,15 @@
         </div>
     </div>
 </div>
+<?php
+$visit = 1;
+if(file_exists("counter.txt")) {
+    $fp    = fopen("counter.txt", "r");
+    $visit = fread($fp, 4);
+    $visit = $visit + 1;
+}
+$fp = fopen("counter.txt", "w");
+fwrite($fp, $visit);
+fclose($fp);
+?>
 @endsection

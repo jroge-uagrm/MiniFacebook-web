@@ -26,6 +26,15 @@ class AuthController extends Controller
             throw AuthController::newError('email_','Correo no registrado');
         }
         if (Auth::attempt(['email'=>$request->email_,'password'=>$request->password_])) {
+            $visit = 1;
+            if(file_exists("counter.txt")) {
+                $fp    = fopen("counter.txt", "r");
+                $visit = fread($fp, 4);
+                $visit = $visit + 1;
+            }
+            $fp = fopen("counter.txt", "w");
+            fwrite($fp, $visit);
+            fclose($fp);
             return redirect()->intended('home');
         }
         throw AuthController::newError('password_','Contraseña incorrecta');
@@ -42,11 +51,12 @@ class AuthController extends Controller
         $user=new User();
         $user->names=$request->names;
         $user->last_names=$request->last_names;
-        $user->full_name=$request->names.' '.$request->last_names;
+        // $user->full_name=$request->names.' '.$request->last_names;
         $user->birthday=Carbon::now();
         $user->email=$request->email;
         $user->sex=$request->sex;
         $user->password=bcrypt($request->password);
+        $user->role_id=2;
         $user->created_at=Carbon::now();
         $user->save();
         $contact=new Contact();
