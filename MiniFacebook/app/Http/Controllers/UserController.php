@@ -41,8 +41,10 @@ class UserController extends Controller
     }
 
     public function profilePicture($userId){
+        $user=User::find($userId);
+        $profilePicturePath=$user->profile_picture_path;
         try{
-            return Image::make(public_path(). "/images/pp-$userId.jpeg")->response('jpeg');
+            return Image::make(public_path(). $profilePicturePath)->response('jpeg');
         }catch(Exception $e){
             return Image::make(public_path(). "/images/pp-default.jpeg")->response('jpeg');
         }
@@ -78,6 +80,7 @@ class UserController extends Controller
                 $image=Image::make($profile_picture);
                 $image->resize(300,300);
                 $image->save(public_path()."/images/pp-$user->id.jpeg");
+                $user->profile_picture_path="/images/pp-$user->id.jpeg";
                 $response="Se ha guardado tu nueva foto de perfil.";
             }
         }catch(Exception $e){

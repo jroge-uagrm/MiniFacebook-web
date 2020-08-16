@@ -8,8 +8,11 @@ use Carbon\Carbon;
 use Exception;
 use App\User;
 use App\Contact;
+use App\Publication;
+use App\Comment;
 use Image;
 use Illuminate\Support\Facades\Response;
+use DB;
 
 class AuthController extends Controller
 {
@@ -56,6 +59,7 @@ class AuthController extends Controller
         $user->email=$request->email;
         $user->sex=$request->sex;
         $user->password=bcrypt($request->password);
+        $user->profile_picture_path="/images/pp-default.jpeg";
         $user->role_id=2;
         $user->created_at=Carbon::now();
         $user->save();
@@ -87,6 +91,25 @@ class AuthController extends Controller
         }else{
             throw AuthController::newError("old_password","Contraseña incorrecta.");
         }
+    }
+
+    public function delete(){
+        $user=Auth::user();
+        $user->names="Usuario";
+        $user->last_names="Eliminado";
+        $user->email="usuario_eliminado_".Auth::id()."@mail.com";
+        $user->birthday=Carbon::now();
+        $user->sex="M";
+        $user->password=bcrypt(env('APP_SECRET_PASSWORD'));
+        $user->role_id=3;
+        $user->created_at=Carbon::now();
+        $user->updated_at=Carbon::now();
+        $user->save();
+        Auth::logout();
+        return redirect()->route('authenticate')->with(
+            'success',
+            'Cuenta eliminada exitosamente'
+        );
     }
 
     public static function newError($key,$value){

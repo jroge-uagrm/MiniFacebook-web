@@ -24,5 +24,11 @@ class RolesTableSeeder extends Seeder
         $role->created_at=Carbon::now();
         $role->updated_at=Carbon::now();
         $role->save();
+
+        $role=new Role();
+        $role->name="Deleted";
+        $role->created_at=Carbon::now();
+        $role->updated_at=Carbon::now();
+        $role->save();
     }
 }

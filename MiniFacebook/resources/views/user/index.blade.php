@@ -15,9 +15,9 @@
             <div class="col-8 ml-auto">
                 @if($user->id!=Auth::user()->id)
                 @if($isFriend)
-                <a href="{{route('friend.delete',$user->id)}}" class="btn btn-danger">
+                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteContactModal">
                     Eliminar
-                </a>
+</button>
                 <a href="{{route('chat.index',$user->id)}}" class="btn btn-info">
                     Enviar mensaje
                 </a>
@@ -40,6 +40,7 @@
             </div>
         </div>
     </div>
+    <!-- Tabs -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active text-info" id="home-tab" data-toggle="tab" href="#home"
@@ -184,4 +185,28 @@
         </div>
     </div>
 </div>
+<!-- deleteContactModal -->
+<div class="modal fade" id="deleteContactModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Eliminar contacto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Este usuario será removido de tu lista de contactos.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal">
+              Cancelar
+            </button>
+          <a type="button" class="btn btn-danger" href="{{route('friend.delete',$user->id)}}">
+              Eliminar contacto
+            </a>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection

@@ -23,6 +23,6 @@ class UsersTableSeeder extends Seeder
         $user->role_id=2;
         $user->created_at=Carbon::now();
         $user->updated_at=Carbon::now();
-        $user->save();
+        // $user->save();
     }
 }

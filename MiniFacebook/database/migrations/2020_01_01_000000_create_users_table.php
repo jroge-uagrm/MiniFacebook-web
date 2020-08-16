@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->date('birthday')->nullable();
             $table->string('password');
             $table->char('sex');
+            $table->string('profile_picture_path');
             $table->unsignedBigInteger('role_id');
             $table->foreign('role_id')->references('id')->on('roles');
             $table->timestamps();

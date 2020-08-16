@@ -181,7 +181,7 @@
             @endif
         </div>
         <!-- CONTENT -->
-        <div class="col-6 bg-light h-100 overflow-auto py-2 border border-info">
+        <div class="col-6 bg-light h-100 overflow-auto border border-info">
             @section('content')
             @show
         </div>

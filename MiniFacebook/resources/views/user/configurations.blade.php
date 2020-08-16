@@ -65,7 +65,7 @@
         </form>
     </div>
 </div>
-<div class="row mb-4">
+<div class="row">
     <div class="col border border-dark p-0">
         <h2 class="text-center mt-3">
             Cambiar contraseña
@@ -96,5 +96,32 @@
         </form>
     </div>
 </div>
+<div class="row">
+    <div class="col border border-danger p-0">
+        <button class="btn btn-outline-danger btn-block btn-lg" data-toggle="modal" data-target="#deleteAccountModal">
+            Eliminar cuenta
+        </button>
+    </div>
+</div>
+<!-- deleteAccountModal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Eliminar cuenta</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Su cuenta será eliminada permanentemente y no podrás recuperarla.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+          <a type="button" class="btn btn-danger" href="{{route('account.delete')}}">Eliminar cuenta</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 @endsection

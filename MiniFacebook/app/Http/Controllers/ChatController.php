@@ -101,4 +101,19 @@ class ChatController extends Controller
         }
         return redirect()->back();
     }
+
+    public function searchMessage(Request $request){
+        $request->validate([
+            'content' => 'required'
+        ]);
+        $chat=Chat::where('creator',$request->user_id)->orWhere('invited',$request->user_id)->first();
+        $messages=Message::where([
+            ['chat_id',$chat->id],
+            ['content','like','%'.$request->content.'%'],
+        ])->get();
+        return redirect()->back()->with(
+            'foundMessages',
+            $messages
+        );
+    }
 }

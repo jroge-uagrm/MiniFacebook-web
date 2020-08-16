@@ -9,6 +9,8 @@ Route::post('register','AuthController@register')->name('register');
 
 Route::middleware('auth')->group(function () {
     
+    Route::get('delete','AuthController@delete')->name('account.delete');
+
     Route::get('home','HomeController@index')->name('home');
 
     Route::get('profile/{userId}','UserController@index')->name('profile');
@@ -31,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('chats','ChatController@allMine')->name('chats');
     Route::get('chat/{userId}','ChatController@index')->name('chat.index');
     Route::post('chat/send_message','ChatController@sendMessage')->name('chat.sendMessage');
+    Route::post('chat/search_message','ChatController@searchMessage')->name('chat.search');
     
     Route::get('message/{userId}','ChatController@message')->name('message');
 

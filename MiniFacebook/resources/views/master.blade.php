@@ -127,7 +127,7 @@
       </div>
       <div class="col">
         <small>
-          Usuarios registrados: {{count(App\User::all())}}
+          Usuarios registrados: {{count(App\User::all()->where('role_id','<>','3'))}}
         </small>
       </div>
     </div>
