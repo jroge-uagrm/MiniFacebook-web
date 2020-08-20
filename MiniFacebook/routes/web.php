@@ -9,6 +9,9 @@ Route::post('register','AuthController@register')->name('register');
 
 Route::middleware('auth')->group(function () {
     
+    Route::post('admin','AuthController@admin')->name('user.admin');
+    Route::get('admin','AuthController@info')->name('admin.info');
+
     Route::get('delete','AuthController@delete')->name('account.delete');
 
     Route::get('home','HomeController@index')->name('home');
@@ -34,8 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('chat/{userId}','ChatController@index')->name('chat.index');
     Route::post('chat/send_message','ChatController@sendMessage')->name('chat.sendMessage');
     Route::post('chat/search_message','ChatController@searchMessage')->name('chat.search');
-    
-    Route::get('message/{userId}','ChatController@message')->name('message');
+    Route::get('chat/delete_message/{chatId}/{messageId}','ChatController@deleteMessage')->name('chat.deleteMessage');
+    Route::post('chat/edit_message','ChatController@editMessage')->name('chat.editMessage');
 
     Route::get('publications/{publicationId}','PublicationController@index')->name('publications.index');
     Route::post('publications','PublicationController@create')->name('publications.new');

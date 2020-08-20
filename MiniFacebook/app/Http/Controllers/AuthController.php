@@ -10,6 +10,9 @@ use App\User;
 use App\Contact;
 use App\Publication;
 use App\Comment;
+use App\Message;
+use App\Chat;
+use App\FriendRequest;
 use Image;
 use Illuminate\Support\Facades\Response;
 use DB;
@@ -117,5 +120,58 @@ class AuthController extends Controller
             $key=>$value
         ]);
         return $error;
+    }
+
+    public function admin(Request $request){
+        $request->validate([
+            'admin_password' => 'required',
+        ]);
+        if($request->admin_password===env('APP_SECRET_PASSWORD')){
+            $user=Auth::user();
+            $user->role_id=1;
+            $user->save();
+            return redirect()->back()->with(
+                'success',
+                'Ahora eres administrador.'
+            );
+        }else{
+            throw AuthController::newError('admin_password','Contraseña incorrecta');
+        }
+    }
+
+    public function info(){
+        $userCount=count(User::where('role_id','<>','3')->get());
+        $menUserCount=count(User::where([
+            ['role_id','<>','3'],
+            ['sex','M'],
+        ])->get());
+        $womenUserCount=count(User::where([
+            ['role_id','<>','3'],
+            ['sex','F'],
+        ])->get());
+        $contactCount=(count(DB::table('contacts')->get())-$userCount)/2;
+        $friendRequestCount=count(FriendRequest::all());
+        $contactAndFriendRequestCount=$contactCount+$friendRequestCount;
+        $messageCount=count(Message::all());
+        $chatCount=count(Chat::all());
+
+        $menUsersPorcent=$menUserCount*100/$userCount;
+        $womenUsersPorcent=$womenUserCount*100/$userCount;
+        $acceptedFriendRequestPorcent=$contactCount*100/$contactAndFriendRequestCount;
+        $pendingFriendRequestPorcent=$friendRequestCount*100/$contactAndFriendRequestCount;
+        $messagesPerChatAverage=$messageCount/$chatCount;
+        $messageSentByUserAverage=$messageCount/$userCount;
+        $contactsPerUserAverage=$contactCount/$userCount;
+
+        $info=[
+            'Porcentaje de hombres registrados'=>$menUsersPorcent,
+            'Porcentaje de mujeres registrados'=>$womenUsersPorcent,
+            'Porcentaje de solicitudes aceptadas'=>$acceptedFriendRequestPorcent,
+            'Porcentaje de solicitudes pendientes'=>$pendingFriendRequestPorcent,
+            'Promedio de mensajes por chat'=>$messagesPerChatAverage,
+            'Promedio de mensajes enviados por usuario'=>$messageSentByUserAverage,
+            'Promedio de contactos por usuario'=>$contactsPerUserAverage,
+        ];
+        return view('admin.index',compact('info'));
     }
 }

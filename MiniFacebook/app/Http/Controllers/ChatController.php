@@ -31,7 +31,7 @@ class ChatController extends Controller
             ->get();
             $messages=array_reverse($messages->toArray());
         }
-        return view('home.chat',compact('user','messages'));
+        return view('home.chat',compact('user','messages','chat'));
     }
 
     public function allMine(){
@@ -115,5 +115,26 @@ class ChatController extends Controller
             'foundMessages',
             $messages
         );
+    }
+
+    public function deleteMessage($chatId,$messageId){
+        Message::where([
+            ['chat_id',$chatId],
+            ['id',$messageId]
+        ])->delete();
+        return redirect()->back()->with(
+            'success',
+            'Mensaje eliminado correctamente.'
+        );
+    }
+
+    public function editMessage(Request $request){
+        Message::where([
+            ['chat_id',$request->chat_id],
+            ['id',$request->message_id]
+        ])->update([
+            'content'=>$request->content
+        ]);
+        return redirect()->back();
     }
 }

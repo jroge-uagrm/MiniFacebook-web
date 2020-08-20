@@ -97,10 +97,7 @@
   </div>
   <div id="newFriendRequestAcceptedAlert"
     class="collapse alert alert-info alert-dismissible ml-3 mb-5  col-md-3 fixed-bottom" role="alert">
-    <strong id="FriendRequestAcceptedUserNames"></strong> ha aceptado tu soicitud.
-    <div class="float-right">
-      <a class="text-info font-weight-bold" id="FriendRequestAcceptedHref" href="#">Ver</a>
-    </div>
+    <strong id="FriendRequestAcceptedUserNames"></strong> ha aceptado tu solicitud.
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -164,7 +161,7 @@
     }
   });
   channel.bind('friend-request-accepted', function (data) {
-    if (data.data.receiver == "{{ Auth:: id() }}") {
+    if (data.data.receiverId == "{{ Auth:: id() }}") {
       var alert = document.getElementById("newFriendRequestAcceptedAlert");
       alert.className += " show ";
       var userNames = document.getElementById("FriendRequestAcceptedUserNames");

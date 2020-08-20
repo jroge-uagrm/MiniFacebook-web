@@ -137,6 +137,9 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right col-6">
                         <a class="dropdown-item" href="{{route('configurations')}}">Configurar perfil</a>
+                        @if(Auth::user()->role_id==1)
+                        <a class="dropdown-item" href="{{route('admin.info')}}">Reportes y estadísticas</a>
+                        @endif
                         <a class="dropdown-item" href="{{route('logout')}}">Cerrar sesión</a>
                     </div>
                 </li>
@@ -191,7 +194,10 @@
             <?php
             $contacts=App\Contact::where('user_a',Auth::id())
             ->join('users','users.id','contacts.user_b')
-            ->where('contacts.user_b','<>',Auth::id())
+            ->where([
+                ['contacts.user_b','<>',Auth::id()],
+                ['users.role_id','<>','3'],
+            ])
             ->get();
             ?>
             <ul class="list-group">
@@ -201,8 +207,7 @@
                         <div class="row">
                             <div class="col-3 p-0">
                                 <a href="{{route('profile',$contact->id)}}">
-                                    <img src="{{route('profile_picture',$contact->id)}}" width="100%"
-                                        height="100%">
+                                    <img src="{{route('profile_picture',$contact->id)}}" width="100%" height="100%">
                                 </a>
                             </div>
                             <div class="col p-0">
@@ -214,10 +219,23 @@
                                                 {{$contact->names}} <br>
                                                 {{$contact->last_names}}
                                             </a>
-                                            <a href="{{route('chat.index',$contact->id)}}"
-                                                class="badge badge-info">
-                                                Abrir chat
-                                            </a>
+                                            <br>
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col p-0">
+                                                        <a href="{{route('chat.index',$contact->id)}}"
+                                                            class="badge badge-info">
+                                                            Abrir chat
+                                                        </a>
+                                                    </div>
+                                                    <div class="col p-0">
+                                                        <a href="{{route('friend.delete',$contact->id)}}"
+                                                            class="badge badge-danger">
+                                                            Eliminar contacto
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

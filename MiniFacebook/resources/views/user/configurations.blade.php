@@ -65,6 +65,7 @@
         </form>
     </div>
 </div>
+<!-- CHANGE PASSWORD -->
 <div class="row">
     <div class="col border border-dark p-0">
         <h2 class="text-center mt-3">
@@ -96,6 +97,31 @@
         </form>
     </div>
 </div>
+<!-- CHANGE TO ADMIN -->
+<div class="row">
+    <div class="col border border-dark p-0">
+        <h5 class="text-center mt-3">
+            Convertir cuenta a administrador
+        </h5>
+        <form action="{{route('user.admin')}}" method="post" class="px-5">
+            {{csrf_field()}}
+            <div class="row my-3 align-items-center">
+                <div class="col-md-5">
+                    <label>Contraseña de administrador</label>
+                </div>
+                <div class="col-md">
+                    <input type="password" name="admin_password" class="form-control" value="{{old('old_password')}}">
+                    {!!$errors->first('admin_password','<small
+                        class="text-danger font-weight-bold">:message</small>')!!}
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <input type="submit" class="btn btn-info mx-auto" value="Convertir">
+            </div>
+        </form>
+    </div>
+</div>
+<!-- DELETE ACCOUNT -->
 <div class="row">
     <div class="col border border-danger p-0">
         <button class="btn btn-outline-danger btn-block btn-lg" data-toggle="modal" data-target="#deleteAccountModal">
@@ -106,22 +132,22 @@
 <!-- deleteAccountModal -->
 <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Eliminar cuenta</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar cuenta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Su cuenta será eliminada permanentemente y no podrás recuperarla.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                <a type="button" class="btn btn-danger" href="{{route('account.delete')}}">Eliminar cuenta</a>
+            </div>
         </div>
-        <div class="modal-body">
-          Su cuenta será eliminada permanentemente y no podrás recuperarla.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
-          <a type="button" class="btn btn-danger" href="{{route('account.delete')}}">Eliminar cuenta</a>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
 @endsection
