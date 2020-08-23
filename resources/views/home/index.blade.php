@@ -7,9 +7,20 @@ if(strpos(Auth::user()->style,"classic")!==false){
 }else if(strpos(Auth::user()->style,"dark")!==false){
     $color="dark";
 }
+$size="small";
+if(strpos(Auth::user()->style,"normal")!==false){
+    $size="normal";
+}else if(strpos(Auth::user()->style,"big")!==false){
+    $size="large";
+}
 ?>
+<style>
+    body{
+      font-size: {{$size}};
+    }
+</style>
 <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-light bg-{{$color}}  sticky-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-{{$color}} sticky-top">
     <button class="navbar-toggler mb-3" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -179,15 +190,15 @@ if(strpos(Auth::user()->style,"classic")!==false){
     </div>
 </nav>
 <div class="continer {{$color=='dark'?'bg-gray':''}}" style="height: 89%;">
-    <div class="row h-100 w-100 ">
+    <div class="row h-100 w-100 p-0 m-0">
         <!-- FOUND USERS -->
-        <div class="col-3 m-2 ml-4 h-100 overflow-auto p-0">
+        <div class="d-none d-sm-block col-md-3 m-2 ml-4 h-100 overflow-auto p-0">
             @if(session()->has('foundUsers'))
             <h5 class="text-center">Usuarios encontrados</h5>
             <ul class="list-group">
                 @forelse(session()->get('foundUsers') as $foundUser)
                 <a href="{{route('profile',$foundUser->id)}}">
-                    <li class="list-group-item list-group-item-action border border-info rounded">
+                    <li class="list-group-item list-group-item-action border border-{{$color}} rounded">
                         <div class="row">
                             <div class="col-md-4">
                                 <img src="{{route('profile_picture',$foundUser->id)}}" class="img-fluid img-thumbnail"
@@ -215,12 +226,12 @@ if(strpos(Auth::user()->style,"classic")!==false){
             @endif
         </div>
         <!-- CONTENT -->
-        <div class="col-6 bg-light h-100 overflow-auto border border-{{$color=='dark'?'dark':'info'}}">
+        <div class="col-md-6 col-sm bg-light h-100 overflow-auto border border-{{$color=='dark'?'dark':'info'}}">
             @section('content')
             @show
         </div>
         <!-- ONLINE CONTACTS -->
-        <div class="col h-100 overflow-auto">
+        <div class="d-none d-sm-block col h-100 overflow-auto">
             <h5 class="text-center">Contactos</h5>
             <?php
             $contacts=App\Contact::where('user_a',Auth::id())

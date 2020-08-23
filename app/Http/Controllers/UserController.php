@@ -56,19 +56,25 @@ class UserController extends Controller
 
     public function update(Request $request){
         $request->validate([
-            'names' => 'required',
-            'last_names' => 'required',
+            'names' => 'required|string',
+            'last_names' => 'required|string',
             'birthday' => 'required|date',
             'email' => 'required|email',
             'color' => 'required',
             'font' => 'required',
         ]);
+        if($request->phone_number){
+            $request->validate([
+                'phone_number' => 'numeric',
+            ]);
+        }
         $user=Auth::user();
         $user->names=$request->names;
         $user->last_names=$request->last_names;
         // $user->full_name=$request->names.' '.$request->last_names;
         $user->phone_number=$request->phone_number;
         $user->birthday=$request->birthday;
+        $user->sex=$request->sex;
         $user->style=$request->color.$request->font;
         if($user->email!=$request->email){
             if(User::where('email',$request->email)->first()!=null){

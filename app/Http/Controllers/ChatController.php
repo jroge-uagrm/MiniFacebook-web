@@ -14,7 +14,7 @@ use DB;
 
 class ChatController extends Controller
 {
-    public function index($userId,$chat_lenght=10){
+    public function index($userId,$chat_lenght=50){
         $user=User::find($userId);
         $chat=Chat::where([
             ['creator',Auth::user()->id],

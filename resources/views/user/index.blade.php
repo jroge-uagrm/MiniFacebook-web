@@ -143,10 +143,10 @@ if(strpos(Auth::user()->style,"classic")!==false){
             <ul class="list-group">
                 @if($isFriend)
                 @forelse($publications as $publication)
-                <li class="list-group-item list-group-item-action my-2 border boder-info rounded">
+                <li class="list-group-item list-group-item-action my-2 border boder-{{$color}} rounded">
                     <div class="container">
                         <div class="row justify-content-between">
-                            <a class="text-info h6" href="{{route('profile',$publication->user_id)}}">
+                            <a class="text-{{$color}} h6" href="{{route('profile',$publication->user_id)}}">
                                 {{$user->names}}
                             </a>
                             <small class="text-muted">
@@ -165,7 +165,7 @@ if(strpos(Auth::user()->style,"classic")!==false){
                                 Eliminar publicación
                             </a>
                             @endif
-                            <a class="badge badge-info" href="{{route('publications.index',$publication->id)}}"
+                            <a class="badge badge-{{$color}}" href="{{route('publications.index',$publication->id)}}"
                                 role="button">
                                 Ver publicación
                             </a>

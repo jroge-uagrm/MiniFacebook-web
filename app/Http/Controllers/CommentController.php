@@ -10,6 +10,9 @@ use Auth;
 class CommentController extends Controller
 {
     public function create(Request $request){
+        $request->validate([
+            'content' => 'required',
+        ]);
         $comment=new Comment();
         $comment->content=$request->content;
         $comment->user_id=Auth::id();

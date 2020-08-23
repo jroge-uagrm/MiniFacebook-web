@@ -7,6 +7,12 @@ if(strpos(Auth::user()->style,"classic")!==false){
 }else if(strpos(Auth::user()->style,"dark")!==false){
     $color="dark";
 }
+$size="small";
+if(strpos(Auth::user()->style,"normal")!==false){
+    $size="normal";
+}else if(strpos(Auth::user()->style,"big")!==false){
+    $size="large";
+}
 ?>
 <div class="row">
     <div class="col border border-dark p-0">
@@ -64,7 +70,7 @@ if(strpos(Auth::user()->style,"classic")!==false){
                         <option value="F" selected>Femenino</option>
                         @endif
                     </select>
-                    {!!$errors->first('phone_number','<small class="text-danger font-weight-bold">:message</small>')!!}
+                    {!!$errors->first('sex','<small class="text-danger font-weight-bold">:message</small>')!!}
                 </div>
             </div>
             <div class="form-group row">
@@ -86,25 +92,33 @@ if(strpos(Auth::user()->style,"classic")!==false){
                         <option value="colorized" class="bg-success" selected>Colorido</option>
                         @endif
                     </select>
-                    {!!$errors->first('phone_number','<small class="text-danger font-weight-bold">:message</small>')!!}
+                    {!!$errors->first('color','<small class="text-danger font-weight-bold">:message</small>')!!}
                 </div>
                 <div class="col">
                     <label>Tamaño de fuente</label>
                     <select name="font" class="form-control">
-                        @if(Auth::user()->sex=='M')
-                        <option value="normal" selected>Normal</option>
-                        <option value="big" class="h5">Grande</option>
-                        <option value="small" class="small">Pequeño</option>
+                        @if($size=="small")
+                        <option value="normal" style="font-size:normal;" >Normal
+                        </option>
+                        <option value="small" style="font-size:small;"selected>Pequeño</option>
+                        <option value="big" style="font-size:large;">Grande</option>
+                        @elseif($size=="normal")
+                        <option value="normal" style="font-size:normal;" selected>Normal
+                        </option>
+                        <option value="small" style="font-size:small;"">Pequeño</option>
+                        <option value="big" style="font-size:large;">Grande</option>
                         @else
-                        <option value="M">Masculino</option>
-                        <option value="F" selected>Femenino</option>
+                        <option value="normal" style="font-size:normal;">Normal
+                        </option>
+                        <option value="small" style="font-size:small;"">Pequeño</option>
+                        <option value="big" style="font-size:large;"selected>Grande</option>
                         @endif
                     </select>
-                    {!!$errors->first('phone_number','<small class="text-danger font-weight-bold">:message</small>')!!}
+                    {!!$errors->first('size','<small class="text-danger font-weight-bold">:message</small>')!!}
                 </div>
             </div>
             <div class="form-group form-row">
-                <input type="submit" class="btn btn-info mx-auto" value="Guardar">
+                <input type="submit" class="btn btn-{{$color}} mx-auto" value="Guardar">
             </div>
         </form>
     </div>
@@ -136,7 +150,7 @@ if(strpos(Auth::user()->style,"classic")!==false){
                     class="text-danger font-weight-bold text-small">:message</small>')!!}
             </div>
             <div class="form-group form-row">
-                <input type="submit" class="btn btn-info mx-auto" value="Guardar">
+                <input type="submit" class="btn btn-{{$color}} mx-auto" value="Guardar">
             </div>
         </form>
     </div>
@@ -160,7 +174,7 @@ if(strpos(Auth::user()->style,"classic")!==false){
                 </div>
             </div>
             <div class="form-group form-row">
-                <input type="submit" class="btn btn-info mx-auto" value="Convertir">
+                <input type="submit" class="btn btn-{{$color}} mx-auto" value="Convertir">
             </div>
         </form>
     </div>
