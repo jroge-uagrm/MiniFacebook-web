@@ -59,6 +59,37 @@
                     {!!$errors->first('phone_number','<small class="text-danger font-weight-bold">:message</small>')!!}
                 </div>
             </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label>Color de interfaz</label>
+                    <select name="color" class="form-control">
+                        @if(Auth::user()->sex=='M')
+                        <option value="classic" class="bg-info" selected>Clasico</option>
+                        <option value="dark" class="bg-dark text-white">Oscuro</option>
+                        <option value="colorized" class="bg-success">Colorido</option>
+                        @else
+                        <option value="M">Masculino</option>
+                        <option value="F" selected>Femenino</option>
+                        <option value="F" selected>Femenino</option>
+                        @endif
+                    </select>
+                    {!!$errors->first('phone_number','<small class="text-danger font-weight-bold">:message</small>')!!}
+                </div>
+                <div class="col">
+                    <label>Tamaño de fuente</label>
+                    <select name="font" class="form-control">
+                        @if(Auth::user()->sex=='M')
+                        <option value="normal" selected>Normal</option>
+                        <option value="big" class="h5">Grande</option>
+                        <option value="small" class="small">Pequeño</option>
+                        @else
+                        <option value="M">Masculino</option>
+                        <option value="F" selected>Femenino</option>
+                        @endif
+                    </select>
+                    {!!$errors->first('phone_number','<small class="text-danger font-weight-bold">:message</small>')!!}
+                </div>
+            </div>
             <div class="form-group form-row">
                 <input type="submit" class="btn btn-info mx-auto" value="Guardar">
             </div>

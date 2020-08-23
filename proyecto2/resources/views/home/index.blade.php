@@ -44,7 +44,7 @@
                 <!-- CHATS -->
                 <li class="nav-item mx-3">
                     <a href="{{route('chats')}}">
-                        <img src="/images/icon-messages.png" width="30" height="30">
+                        <img src="{{ URL::to('images/icon-messages.png') }}" width="30" height="30">
                     </a>
                     @if(session()->has('chats'))
                     <div class="dropdown-menu dropdown-menu-right col-8 p-0 show" id="divmessages">
@@ -82,7 +82,7 @@
                 <!-- FRIEND REQUEST -->
                 <li class="nav-item mx-3">
                     <a href="{{route('friendRequest.allMine')}}">
-                        <img src="/images/icon-friends.png" width="30" height="30">
+                        <img src="{{ URL::to('images/icon-friends.png') }}" width="30" height="30">
                     </a>
                     @if(session()->has('friendRequests'))
                     <div class="dropdown-menu dropdown-menu-right col-8 p-0 show" id="divfriendrequests">
@@ -133,7 +133,7 @@
                 <!-- CONFIGURATIONS AND LOG OUT -->
                 <li class="nav-item mx-3">
                     <a type="button" data-toggle="dropdown">
-                        <img src="/images/icon-configurations.png" width="30" height="30">
+                        <img src="{{ URL::to('images/icon-configurations.png') }}" width="30" height="30">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right col-6">
                         <a class="dropdown-item" href="{{route('configurations')}}">Configurar perfil</a>

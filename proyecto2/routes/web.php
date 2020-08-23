@@ -1,7 +1,9 @@
 <?php
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/','/home');
+Route::get('/', function () {
+    return redirect()->route('authenticate');
+});
 
 Route::get('login','AuthController@index')->name('authenticate');
 Route::post('login','AuthController@login')->name('login');

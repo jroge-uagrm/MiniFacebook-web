@@ -77,11 +77,15 @@ class AuthController extends Controller
         $user->role_id=2;
         $user->created_at=Carbon::now();
         $user->save();
-        $contact=new Contact();
+        /* $contact=new Contact();
         $contact->user_a=$user->id;
         $contact->user_b=$user->id;
         $contact->created_at=Carbon::now();
-        $contact->save();
+        $contact->save(); */
+        DB::table('contacts')->insert([[
+            'user_a' => $user->id,
+            'user_b' => $user->id
+        ]]);
         if (Auth::attempt(['email'=>$request->email,'password'=>$request->password])) {
             return redirect()->route('home');
         }
