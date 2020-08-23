@@ -1,5 +1,13 @@
 @extends('home.index')
 @section('content')
+<?php
+$color="success";
+if(strpos(Auth::user()->style,"classic")!==false){
+    $color="info";
+}else if(strpos(Auth::user()->style,"dark")!==false){
+    $color="dark";
+}
+?>
 <div class="row">
     <div class="col border border-dark p-0">
         <h2 class="text-center mt-3">
@@ -63,14 +71,19 @@
                 <div class="col">
                     <label>Color de interfaz</label>
                     <select name="color" class="form-control">
-                        @if(Auth::user()->sex=='M')
-                        <option value="classic" class="bg-info" selected>Clasico</option>
+                        @if($color=="info")
+                        <option value="classic" class="bg-info" selected>Clasico
+                        </option>
                         <option value="dark" class="bg-dark text-white">Oscuro</option>
                         <option value="colorized" class="bg-success">Colorido</option>
+                        @elseif($color=="dark")
+                        <option value="classic" class="bg-info">Clasico</option>
+                        <option value="dark" class="bg-dark text-white" selected>Oscuro</option>
+                        <option value="colorized" class="bg-success">Colorido</option>
                         @else
-                        <option value="M">Masculino</option>
-                        <option value="F" selected>Femenino</option>
-                        <option value="F" selected>Femenino</option>
+                        <option value="classic" class="bg-info">Clasico</option>
+                        <option value="dark" class="bg-dark text-white">Oscuro</option>
+                        <option value="colorized" class="bg-success" selected>Colorido</option>
                         @endif
                     </select>
                     {!!$errors->first('phone_number','<small class="text-danger font-weight-bold">:message</small>')!!}

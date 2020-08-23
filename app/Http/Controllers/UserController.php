@@ -60,6 +60,8 @@ class UserController extends Controller
             'last_names' => 'required',
             'birthday' => 'required|date',
             'email' => 'required|email',
+            'color' => 'required',
+            'font' => 'required',
         ]);
         $user=Auth::user();
         $user->names=$request->names;
@@ -67,6 +69,7 @@ class UserController extends Controller
         // $user->full_name=$request->names.' '.$request->last_names;
         $user->phone_number=$request->phone_number;
         $user->birthday=$request->birthday;
+        $user->style=$request->color.$request->font;
         if($user->email!=$request->email){
             if(User::where('email',$request->email)->first()!=null){
                 throw AuthController::newError('email','Correo ya registrado');

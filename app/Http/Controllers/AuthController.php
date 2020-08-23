@@ -75,6 +75,7 @@ class AuthController extends Controller
         $user->password=bcrypt($request->password);
         $user->profile_picture_path="/images/pp-default.jpeg";
         $user->role_id=2;
+        $user->style="classicnormal";
         $user->created_at=Carbon::now();
         $user->save();
         /* $contact=new Contact();

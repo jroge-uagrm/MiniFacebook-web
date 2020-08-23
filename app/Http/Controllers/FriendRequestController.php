@@ -69,7 +69,7 @@ class FriendRequestController extends Controller
             ['requesting',$userId],
             ['requested',Auth::user()->id]
         ])->delete()){
-            $contact=new Contact();
+            /* $contact=new Contact();
             $contact->user_a=$userId;
             $contact->user_b=Auth::user()->id;
             $contact->created_at=Carbon::now();
@@ -78,7 +78,15 @@ class FriendRequestController extends Controller
             $contact->user_b=$userId;
             $contact->user_a=Auth::user()->id;
             $contact->created_at=Carbon::now();
-            $contact->save();
+            $contact->save(); */
+            DB::table('contacts')->insert([[
+                'user_a' => $userId,
+                'user_b' => Auth::user()->id
+            ]]);
+            DB::table('contacts')->insert([[
+                'user_a' => Auth::user()->id,
+                'user_b' => $userId
+            ]]);
             $data=[
                 'sender'=>Auth::id(),
                 'names'=>Auth::user()->names,
