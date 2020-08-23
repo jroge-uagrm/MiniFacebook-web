@@ -113,7 +113,7 @@
     </div>
 </div>
 <?php
-$visit = 1;
+/* $visit = 1;
 if(file_exists("counter.txt")) {
     $fp    = fopen("counter.txt", "r");
     $visit = fread($fp, 4);
@@ -121,6 +121,6 @@ if(file_exists("counter.txt")) {
 }
 $fp = fopen("counter.txt", "w");
 fwrite($fp, $visit);
-fclose($fp);
+fclose($fp); */
 ?>
 @endsection

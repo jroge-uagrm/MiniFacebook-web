@@ -105,16 +105,21 @@
   <footer class="fixed-bottom bg-dark text-white text-center">
     <?php
     $visit = 1;
-    if(file_exists("counter.txt")) {
-        $fp    = fopen("counter.txt", "r");
+    $fileName="counters/".Route::current()->getName().".txt";
+    if(file_exists($fileName)) {
+        $fp    = fopen($fileName, "r");
         $visit = fread($fp, 4);
+        $visit++;
         fclose($fp);
     }
+    $fp = fopen($fileName, "w");
+    fwrite($fp, $visit);
+    fclose($fp);
     ?>
     <div class="row">
       <div class="col-4">
         <small>
-          Visitas/Ingresos: {{$visit}}
+          Contador de la pagina {{Route::current()->getName()}}: {{$visit}}
         </small>
       </div>
       <div class="col-4">

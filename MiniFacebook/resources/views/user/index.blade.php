@@ -17,7 +17,7 @@
                 @if($isFriend)
                 <button class="btn btn-danger" data-toggle="modal" data-target="#deleteContactModal">
                     Eliminar
-</button>
+                </button>
                 <a href="{{route('chat.index',$user->id)}}" class="btn btn-info">
                     Enviar mensaje
                 </a>
@@ -43,8 +43,8 @@
     <!-- Tabs -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active text-info" id="home-tab" data-toggle="tab" href="#home"
-                role="tab" aria-controls="home" aria-selected="true">
+            <a class="nav-link active text-info" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                aria-controls="home" aria-selected="true">
                 Información
             </a>
         </li>
@@ -134,7 +134,7 @@
         <!-- PUBLICATIONS -->
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <ul class="list-group">
-            @if($isFriend)
+                @if($isFriend)
                 @forelse($publications as $publication)
                 <li class="list-group-item list-group-item-action my-2 border boder-info rounded">
                     <div class="container">
@@ -158,8 +158,8 @@
                                 Eliminar publicación
                             </a>
                             @endif
-                            <a class="badge badge-info"
-                                href="{{route('publications.index',$publication->id)}}" role="button">
+                            <a class="badge badge-info" href="{{route('publications.index',$publication->id)}}"
+                                role="button">
                                 Ver publicación
                             </a>
                         </div>
@@ -175,8 +175,9 @@
                     <div class="container">
                         <div class="row justify-content-center">
                             <p class="text-center">
-                            Solo los contactos de <strong>&nbsp{{$user->names}}&nbsp</strong> pueden ver sus publicaciones
-</p>
+                                Solo los contactos de <strong>&nbsp{{$user->names}}&nbsp</strong> pueden ver sus
+                                publicaciones
+                            </p>
                         </div>
                     </div>
                 </li>
@@ -188,25 +189,25 @@
 <!-- deleteContactModal -->
 <div class="modal fade" id="deleteContactModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Eliminar contacto</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar contacto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Este usuario será removido de tu lista de contactos.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">
+                    Cancelar
+                </button>
+                <a type="button" class="btn btn-danger" href="{{route('friend.delete',$user->id)}}">
+                    Eliminar contacto
+                </a>
+            </div>
         </div>
-        <div class="modal-body">
-          Este usuario será removido de tu lista de contactos.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-info" data-dismiss="modal">
-              Cancelar
-            </button>
-          <a type="button" class="btn btn-danger" href="{{route('friend.delete',$user->id)}}">
-              Eliminar contacto
-            </a>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 @endsection

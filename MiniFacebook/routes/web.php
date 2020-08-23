@@ -11,6 +11,10 @@ Route::middleware('auth')->group(function () {
     
     Route::post('admin','AuthController@admin')->name('user.admin');
     Route::get('admin','AuthController@info')->name('admin.info');
+    Route::get('admin_report_pdf','AuthController@reportPdf')->name('admin.report.pdf');
+    Route::get('admin_report_excel','AuthController@reportExcel')->name('admin.report.excel');
+    Route::get('admin_statistics_pdf','AuthController@statisticsPdf')->name('admin.statistics.pdf');
+    Route::get('admin_statistics_excel','AuthController@statisticsExcel')->name('admin.statistics.excel');
 
     Route::get('delete','AuthController@delete')->name('account.delete');
 

@@ -13,12 +13,23 @@ use App\Comment;
 use App\Message;
 use App\Chat;
 use App\FriendRequest;
+use App\Report;
 use Image;
 use Illuminate\Support\Facades\Response;
 use DB;
+use PDF;
+use Maatwebsite\Excel\Excel;
+use App\Exports\ReportExport;
+use App\Exports\StatisticsExport;
 
 class AuthController extends Controller
 {
+    private $excel;
+
+    public function __construct(Excel $e){
+        $this->excel=$e;
+    }
+
     public function index(){
         return view('auth.index');
     }
@@ -32,7 +43,7 @@ class AuthController extends Controller
             throw AuthController::newError('email_','Correo no registrado');
         }
         if (Auth::attempt(['email'=>$request->email_,'password'=>$request->password_])) {
-            $visit = 1;
+            /* $visit = 1;
             if(file_exists("counter.txt")) {
                 $fp    = fopen("counter.txt", "r");
                 $visit = fread($fp, 4);
@@ -40,7 +51,7 @@ class AuthController extends Controller
             }
             $fp = fopen("counter.txt", "w");
             fwrite($fp, $visit);
-            fclose($fp);
+            fclose($fp); */
             return redirect()->intended('home');
         }
         throw AuthController::newError('password_','Contraseña incorrecta');
@@ -140,6 +151,34 @@ class AuthController extends Controller
     }
 
     public function info(){
+        $report=$this->getReportInfo();
+        $statistics=$this->getStatisticsInfo();
+        return view('admin.index',compact('report','statistics'));
+    }
+
+    public function statisticsPdf(){
+        $info=$this->getStatisticsInfo();
+        $pdf = PDF::loadView('admin.pdf', compact('info'))->setPaper('a4', 'landscape');
+        return $pdf->download('estadisticas.pdf');
+    }
+
+    public function statisticsExcel(){
+        $data=$this->getStatisticsInfo();
+        return $this->excel->download(new StatisticsExport(),'estadisticas.xlsx');
+    }
+
+    public function reportPdf(){
+        $info=$this->getReportInfo();
+        $pdf = PDF::loadView('admin.pdf', compact('info'))->setPaper('a4', 'landscape');
+        return $pdf->download('reporte.pdf');
+    }
+
+    public function reportExcel(){
+        $data=$this->getReportInfo();
+        return $this->excel->download(new ReportExport(),'reports.xlsx');
+    }
+
+    public static function getStatisticsInfo(){
         $userCount=count(User::where('role_id','<>','3')->get());
         $menUserCount=count(User::where([
             ['role_id','<>','3'],
@@ -155,23 +194,66 @@ class AuthController extends Controller
         $messageCount=count(Message::all());
         $chatCount=count(Chat::all());
 
-        $menUsersPorcent=$menUserCount*100/$userCount;
-        $womenUsersPorcent=$womenUserCount*100/$userCount;
-        $acceptedFriendRequestPorcent=$contactCount*100/$contactAndFriendRequestCount;
-        $pendingFriendRequestPorcent=$friendRequestCount*100/$contactAndFriendRequestCount;
-        $messagesPerChatAverage=$messageCount/$chatCount;
-        $messageSentByUserAverage=$messageCount/$userCount;
-        $contactsPerUserAverage=$contactCount/$userCount;
-
-        $info=[
-            'Porcentaje de hombres registrados'=>$menUsersPorcent,
-            'Porcentaje de mujeres registrados'=>$womenUsersPorcent,
-            'Porcentaje de solicitudes aceptadas'=>$acceptedFriendRequestPorcent,
-            'Porcentaje de solicitudes pendientes'=>$pendingFriendRequestPorcent,
-            'Promedio de mensajes por chat'=>$messagesPerChatAverage,
-            'Promedio de mensajes enviados por usuario'=>$messageSentByUserAverage,
-            'Promedio de contactos por usuario'=>$contactsPerUserAverage,
+        $menUsersPorcent=$userCount!=0?$menUserCount*100/$userCount:0;
+        $womenUsersPorcent=$userCount!=0?$womenUserCount*100/$userCount:0;
+        $acceptedFriendRequestPorcent=$contactAndFriendRequestCount!=0?$contactCount*100/$contactAndFriendRequestCount:0;
+        $pendingFriendRequestPorcent=$contactAndFriendRequestCount!=0?$friendRequestCount*100/$contactAndFriendRequestCount:0;
+        $messagesPerChatAverage=$chatCount!=0?$messageCount/$chatCount:0;
+        $messageSentByUserAverage=$userCount!=0?$messageCount/$userCount:0;
+        $contactsPerUserAverage=$userCount!=0?$contactCount/$userCount:0;
+        
+        $data= [
+            'Porcentaje de hombres registrados'=>round($menUsersPorcent,2)."%",
+            'Porcentaje de mujeres registrados'=>round($womenUsersPorcent,2)."%",
+            'Porcentaje de solicitudes aceptadas'=>round($acceptedFriendRequestPorcent,2)."%",
+            'Porcentaje de solicitudes pendientes'=>round($pendingFriendRequestPorcent,2)."%",
+            'Promedio de mensajes por chat'=>round($messagesPerChatAverage,2)." msjs/chat",
+            'Promedio de mensajes enviados por usuario'=>round($messageSentByUserAverage,2)." msjs/usuario",
+            'Promedio de contactos por usuario'=>round($contactsPerUserAverage,2)." contactos/usuario",
         ];
-        return view('admin.index',compact('info'));
+
+        Report::where([
+            ['id','>','0'],
+            ['type','statistic'],
+        ])->delete();
+
+        foreach ($data as $key => $value) {
+            $report=new Report();
+            $report->information=$key;
+            $report->value=$value;
+            $report->type='statistic';
+            $report->save();
+        }
+
+        return $data;
+    }
+
+    public static function getReportInfo(){
+        $userCount=count(User::where('role_id','<>','3')->get());
+        $messageCount=count(Message::all());
+        $friendRequestCount=count(FriendRequest::all());
+        $contactCount=(count(DB::table('contacts')->get())-$userCount)/2;
+        
+        $data= [
+            'Usuarios registrados'=>$userCount,
+            'Mensajes enviados'=>$messageCount,
+            'Solicitudes de amistad'=>$friendRequestCount,
+            'Amistades'=>$contactCount,
+        ];
+
+        Report::where([
+            ['id','>','0'],
+            ['type','report'],
+        ])->delete();
+
+        foreach ($data as $key => $value) {
+            $report=new Report();
+            $report->information=$key;
+            $report->value=$value;
+            $report->type='report';
+            $report->save();
+        }
+
+        return $data;
     }
 }

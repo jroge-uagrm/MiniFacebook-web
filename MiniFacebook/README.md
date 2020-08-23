@@ -21,6 +21,12 @@ CU8: Estadisticas
 
 ```composer install```
 
+```composer require barryvdh/laravel-dompdf```
+
+```composer require maatwebsite/excel```
+
+```php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"```
+
 ```cp .env.example .env ```
 
 ```vi .env ```
