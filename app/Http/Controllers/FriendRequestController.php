@@ -9,6 +9,7 @@ use Auth;
 use Carbon\Carbon;
 use App\Events\FriendRequestSent;
 use App\Events\FriendRequestAccepted;
+use DB;
 
 
 class FriendRequestController extends Controller

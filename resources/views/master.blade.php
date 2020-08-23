@@ -29,15 +29,9 @@
       border-radius: .2rem;
     }
 
-    /* h1:hover,
-    h2:hover,
-    h3:hover,
-    h4:hover,
-    h5:hover,
-    h6:hover,
-    small:hover {
-      cursor: default;
-    } */
+    .bg-gray {
+        background-color: gray;
+    }
   </style>
 </head>
 

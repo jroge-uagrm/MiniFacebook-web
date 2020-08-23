@@ -1,6 +1,13 @@
 @extends('home.index')
 @section('content')
-
+<?php
+$color="success";
+if(strpos(Auth::user()->style,"classic")!==false){
+    $color="info";
+}else if(strpos(Auth::user()->style,"dark")!==false){
+    $color="dark";
+}
+?>
 <div class="container-fluid mt-5">
     <div class="row my-3">
         <div class="col-4">
@@ -18,22 +25,22 @@
                 <button class="btn btn-danger" data-toggle="modal" data-target="#deleteContactModal">
                     Eliminar
                 </button>
-                <a href="{{route('chat.index',$user->id)}}" class="btn btn-info">
+                <a href="{{route('chat.index',$user->id)}}" class="btn btn-{{$color}}">
                     Enviar mensaje
                 </a>
                 @else
                 @if($availableToSendFriendRequest)
-                <a href="{{route('friend.request',$user->id)}}" class="btn btn-info">
+                <a href="{{route('friend.request',$user->id)}}" class="btn btn-{{$color}}">
                     Enviar solicitud
                 </a>
                 @else
-                <a href="#" class="btn btn-info disabled">
+                <a href="#" class="btn btn-{{$color}} disabled">
                     Solicitud pendiente
                 </a>
                 @endif
                 @endif
                 @else
-                <a href="{{route('configurations')}}" class="btn btn-info">
+                <a href="{{route('configurations')}}" class="btn btn-{{$color}}">
                     Editar perfil
                 </a>
                 @endif
@@ -43,13 +50,13 @@
     <!-- Tabs -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active text-info" id="home-tab" data-toggle="tab" href="#home" role="tab"
+            <a class="nav-link active text-{{$color}}" id="home-tab" data-toggle="tab" href="#home" role="tab"
                 aria-controls="home" aria-selected="true">
                 Información
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-info" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+            <a class="nav-link text-{{$color}}" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                 aria-controls="profile" aria-selected="false">
                 Publicaciones
             </a>

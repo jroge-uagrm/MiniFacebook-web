@@ -1,6 +1,13 @@
 @extends('home.index')
 @section('content')
-
+<?php
+$color="success";
+if(strpos(Auth::user()->style,"classic")!==false){
+    $color="info";
+}else if(strpos(Auth::user()->style,"dark")!==false){
+    $color="dark";
+}
+?>
 <div class="container">
     <div class="row ">
         <div class="col">
@@ -13,7 +20,7 @@
                                     height="100%">
                             </div>
                             <div class="col p-0 pl-2">
-                                <a class="text-info h6" href="{{route('profile',$publication->user_id)}}">
+                                <a class="text-{{$color}} h6" href="{{route('profile',$publication->user_id)}}">
                                     {{$publication->names}}
                                 </a>
                             </div>
@@ -40,7 +47,7 @@
                 <li class="list-group-item list-group-item-action my-2 border boder-info rounded">
                     <div class="container">
                         <div class="row justify-content-between">
-                            <a class="text-info h6" href="{{route('profile',$comment->user_id)}}">
+                            <a class="text-{{$color}} h6" href="{{route('profile',$comment->user_id)}}">
                                 {{$comment->names}}
                             </a>
                             <small class="text-dark">
@@ -65,7 +72,7 @@
                                 <input type="hidden" name="publication_id" value="{{$publication->id}}">
                                 <input type="text" name="content" placeholder="Escribe algo..."
                                     class="form-control col-10 bg-light">
-                                <input class="btn btn-info" type="submit" value="Comentar">
+                                <input class="btn btn-{{$color}}" type="submit" value="Comentar">
                             </div>
                         </form>
                     </div>

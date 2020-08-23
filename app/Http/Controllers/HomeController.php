@@ -26,11 +26,9 @@ class HomeController extends Controller
         $user=Auth::user();
         $foundUsers=User::where([
             ['names','like','%'.$request->fullName.'%'],
-            ['id','<>',$user->id],
             ['role_id','<>','3'],
         ])->orWhere([
             ['last_names','like','%'.$request->fullName.'%'],
-            ['id','<>',$user->id],
             ['role_id','<>','3'],
         ])->get();
         return redirect()->back()->with(

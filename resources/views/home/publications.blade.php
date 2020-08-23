@@ -1,18 +1,26 @@
 @extends('home.index')
 @section('content')
+<?php
+$color="success";
+if(strpos(Auth::user()->style,"classic")!==false){
+    $color="info";
+}else if(strpos(Auth::user()->style,"dark")!==false){
+    $color="dark";
+}
+?>
 <div class="container">
     <div class="row">
         <div class="col">
             <h5>¿Quieres publicar algo?</h5>
         </div>
     </div>
-    <div class="row border-bottom border-info my-3">
+    <div class="row border-bottom border-{{$color}} my-3">
         <form class="col" action="{{route('publications.new')}}" method="post">
             {{csrf_field()}}
             <textarea class="form-control rounded" name="content" rows="2" placeholder="Escribe algo..."></textarea>
             {!!$errors->first('content','<small class="text-danger font-weight-bold">:message</small>')!!}
             <div class="float-right mt-1 mb-3">
-                <button type="submit" class="btn btn-info badge badge-info">
+                <button type="submit" class="btn badge badge-{{$color}}">
                     Publicar
                 </button>
             </div>
@@ -32,7 +40,7 @@
                                             height="100%">
                                     </div>
                                     <div class="col p-0 pl-2">
-                                        <a class="text-info h6" href="{{route('profile',$publication->user_id)}}">
+                                        <a class="text-{{$color}} h6" href="{{route('profile',$publication->user_id)}}">
                                             {{$publication->names}}
                                         </a>
                                     </div>
@@ -56,7 +64,7 @@
                                 Eliminar publicación
                             </a>
                             @endif
-                            <a class="badge badge-info" href="{{route('publications.index',$publication->id)}}"
+                            <a class="badge badge-{{$color}}" href="{{route('publications.index',$publication->id)}}"
                                 role="button">
                                 Ver publicación
                             </a>
