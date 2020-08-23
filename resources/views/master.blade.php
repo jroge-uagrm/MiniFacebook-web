@@ -110,7 +110,7 @@
     fwrite($fp, $visit);
     fclose($fp);
     ?>
-    <div class="row">
+    <div class="row align-items-center">
       <div class="col-4">
         <small>
           Contador de la pagina {{Route::current()->getName()}}: {{$visit}}

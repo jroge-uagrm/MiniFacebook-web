@@ -15,8 +15,14 @@ if(strpos(Auth::user()->style,"normal")!==false){
 }
 ?>
 <style>
-    body{
-      font-size: {{$size}};
+    body {
+        font-size: {
+                {
+                $size
+            }
+        }
+
+        ;
     }
 </style>
 <!-- NAVBAR -->
@@ -192,8 +198,14 @@ if(strpos(Auth::user()->style,"normal")!==false){
 <div class="continer {{$color=='dark'?'bg-gray':''}}" style="height: 89%;">
     <div class="row h-100 w-100 p-0 m-0">
         <!-- FOUND USERS -->
-        <div class="d-none d-sm-block col-md-3 m-2 ml-4 h-100 overflow-auto p-0">
+        <div id="foundUsersDiv" class="d-none d-sm-block col-md-3 m-2 ml-4 h-100 overflow-auto p-0">
             @if(session()->has('foundUsers'))
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+                integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+            <script>
+                $('#foundUsersDiv').removeClass('d-none');
+                $('#contentDiv').addClass('d-none');
+            </script>
             <h5 class="text-center">Usuarios encontrados</h5>
             <ul class="list-group">
                 @forelse(session()->get('foundUsers') as $foundUser)
@@ -226,12 +238,13 @@ if(strpos(Auth::user()->style,"normal")!==false){
             @endif
         </div>
         <!-- CONTENT -->
-        <div class="col-md-6 col-sm bg-light h-100 overflow-auto border border-{{$color=='dark'?'dark':'info'}}">
+        <div id="contentDiv"
+            class="d-sm-block col-md-6 col-sm bg-light h-100 overflow-auto border border-{{$color=='dark'?'dark':'info'}}">
             @section('content')
             @show
         </div>
         <!-- ONLINE CONTACTS -->
-        <div class="d-none d-sm-block col h-100 overflow-auto">
+        <div id="onlineContactsDiv" class="d-none d-sm-block col h-100 overflow-auto">
             <h5 class="text-center">Contactos</h5>
             <?php
             $contacts=App\Contact::where('user_a',Auth::id())
@@ -245,7 +258,8 @@ if(strpos(Auth::user()->style,"normal")!==false){
             <ul class="list-group">
                 @forelse($contacts as $contact)
                 <a href="{{route('profile',$contact->id)}}">
-                    <li class="list-group-item {{$color=='dark'?'bg-gray':''}} list-group-item-action border border-{{$color}} rounded">
+                    <li
+                        class="list-group-item {{$color=='dark'?'bg-gray':''}} list-group-item-action border border-{{$color}} rounded">
                         <div class="row">
                             <div class="col-3 p-0">
                                 <a href="{{route('profile',$contact->id)}}">
