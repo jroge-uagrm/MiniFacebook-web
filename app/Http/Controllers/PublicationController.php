@@ -16,12 +16,19 @@ class PublicationController extends Controller
         ->join('publications','publications.user_id','users.id')
         ->where('publications.id',$publicationId)
         ->first();
+        if($publication!=null){
         $comments=DB::table('users')
-        ->join('comments','comments.user_id','users.id')
-        ->where('comments.publication_id',$publication->id)
-        ->orderBy('comments.created_at','asc')
-        ->get();
-        return view('publication.index',compact('publication','comments'));
+            ->join('comments','comments.user_id','users.id')
+            ->where('comments.publication_id',$publication->id)
+            ->orderBy('comments.created_at','asc')
+            ->get();
+            return view('publication.index',compact('publication','comments'));
+        }else{
+            return redirect()->back()->with(
+                'error',
+                'No existe la publicacion.'
+            );
+        }
     }
 
     public function create(Request $request){

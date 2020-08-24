@@ -90,7 +90,7 @@
     </button>
   </div>
   <div id="newComment" class="collapse alert alert-info alert-dismissible ml-3 mb-5 col-md-3 fixed-bottom" role="alert">
-    Mensaje de: <strong id="namesUserCommenter">
+    <strong id="namesUserCommenter"> ha comentado tu publicacion
     </strong>
     <div class="float-right">
       <a class="text-info font-weight-bold" id="hrefPublication" href="#">Ver</a>
