@@ -30,7 +30,7 @@
     }
 
     .bg-gray {
-        background-color: gray;
+      background-color: gray;
     }
   </style>
 </head>
@@ -89,6 +89,16 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+  <div id="newComment" class="collapse alert alert-info alert-dismissible ml-3 mb-5 col-md-3 fixed-bottom" role="alert">
+    Mensaje de: <strong id="namesUserCommenter">
+    </strong>
+    <div class="float-right">
+      <a class="text-info font-weight-bold" id="hrefPublication" href="#">Ver</a>
+    </div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <div id="newFriendRequestAcceptedAlert"
     class="collapse alert alert-info alert-dismissible ml-3 mb-5  col-md-3 fixed-bottom" role="alert">
     <strong id="FriendRequestAcceptedUserNames"></strong> ha aceptado tu solicitud.
@@ -140,8 +150,8 @@
   var channel = pusher.subscribe('my-channel');
   channel.bind('new-message', function (data) {
     @if (Request:: is('chat/*'))
-  manageMessage(data);
-  @else
+    manageMessage(data);
+    @else
   var alert = document.getElementById("newMessage");
   alert.className += " show ";
   var userNames = document.getElementById("newMessageUserNames");
@@ -168,6 +178,17 @@
       userNames.appendChild(message);
       var hrefNewMessage = document.getElementById('FriendRequestAcceptedHref');
       hrefNewMessage.setAttribute('href', 'profile/' + data.data.senderId);
+    }
+  });
+  channel.bind('new-comment', function (data) {
+    if (data.data.receiverId == "{{ Auth:: id() }}") {
+      var alert = document.getElementById("newComment");
+      alert.className += " show ";
+      var userNames = document.getElementById("namesUserCommenter");
+      var message = document.createTextNode(data.data.names);
+      userNames.appendChild(message);
+      var hrefNewMessage = document.getElementById('hrefPublication');
+      hrefNewMessage.setAttribute('href', 'publications/' + data.data.publicationId);
     }
   });
 </script>
