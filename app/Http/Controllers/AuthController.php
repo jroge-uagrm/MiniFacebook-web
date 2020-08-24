@@ -128,6 +128,11 @@ class AuthController extends Controller
         $user->created_at=Carbon::now();
         $user->updated_at=Carbon::now();
         $user->save();
+        $publications=Publication::where('user_id',$user->id)->get();
+        foreach ($publications as $publication) {
+            Comment::where('publication_id',$publication->id)->delete();
+            $publication->delete();
+        }
         Auth::logout();
         return redirect()->route('authenticate')->with(
             'success',
