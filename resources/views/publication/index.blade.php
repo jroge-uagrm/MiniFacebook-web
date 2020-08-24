@@ -35,11 +35,31 @@ if(strpos(Auth::user()->style,"classic")!==false){
     </div>
     <div class="row">
         <div class="col">
-            <p class="form-control border border-dark rounded">
+            <p id="oldContent" name="{{$publication->content}}"
+                class="form-control border border-dark rounded collapse show">
                 {{$publication->content}}
             </p>
+            <form id="newContent" class="collapse" action="{{route('publications.edit')}}" method="post">
+                {{csrf_field()}}
+                <input type="hidden" name="publication_id" value="{{$publication->id}}">
+                <textarea id="content" name="content" class="form-control"></textarea>
+                <button class="float-right btn badge badge-{{$color}} my-2">Guardar</button>
+            </form>
         </div>
     </div>
+    @if($publication->user_id==Auth::id())
+    <div class="container">
+        <div class="row justify-content-end">
+            <a href="{{route('publications.delete',$publication->id)}}" class="badge badge-danger">
+                Eliminar publicación
+            </a>
+            <button class="btn badge badge-warning" id="btnEdit">
+                Editar publicación
+            </button>
+        </div>
+    </div>
+
+    @endif
     <div class="row">
         <div class="col">
             <ul class="list-group ">
@@ -55,8 +75,29 @@ if(strpos(Auth::user()->style,"classic")!==false){
                             </small>
                         </div>
                         <div class="row">
-                            {{$comment->content}}
+                            <div class="col">
+                                <p class="oldComment collapse show" name="{{$comment->content}}" id="{{$comment->id}}">
+                                    {{$comment->content}}
+                                </p>
+                                <form id="newComment{{$comment->id}}" class="collapse"
+                                    action="{{route('comments.edit')}}" method="post">
+                                    {{csrf_field()}}
+                                    <input type="hidden" name="comment_id" value="{{$comment->id}}">
+                                    <textarea id="content" name="content" class="form-control"></textarea>
+                                    <button class="float-right btn badge badge-{{$color}} my-2">Guardar</button>
+                                </form>
+                            </div>
                         </div>
+                        @if(Auth::id()==$comment->user_id)
+                        <div class="row justify-content-end">
+                            <a href="{{route('comments.delete',$comment->id)}}" class="badge badge-danger">
+                                Eliminar comentario
+                            </a>
+                            <button class="btn badge badge-warning btnComment" id="{{$comment->id}}">
+                                Editar comentario
+                            </button>
+                        </div>
+                        @endif
                     </div>
                 </li>
                 @empty
@@ -81,5 +122,31 @@ if(strpos(Auth::user()->style,"classic")!==false){
         </div>
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script>
+    $('#btnEdit').click(function () {
+        let content = $('#oldContent').attr('name')
+        if ($('#oldContent').hasClass('show')) {
+            $('#oldContent').removeClass('show')
+            $('#newContent').addClass('show')
+            $('#newContent' + ' #content').val(content)
+        } else {
+            $('#oldContent').addClass('show')
+            $('#newContent').removeClass('show')
+        }
+    })
+    $('.btnComment').click(function () {
+        let id = $(this).attr('id')
+        let content = $('#'+id).attr('name')
+        if ($('#' + id).hasClass('show')) {
+            $('#' + id).removeClass('show')
+            $('#newComment' + id).addClass('show')
+            $('#newComment' + id + ' #content').val(content)
+        } else {
+            $('#'+id).addClass('show')
+            $('#newComment'+id).removeClass('show')
+        }
+    })
+</script>
 @endsection

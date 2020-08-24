@@ -16,13 +16,7 @@ if(strpos(Auth::user()->style,"normal")!==false){
 ?>
 <style>
     body {
-        font-size: {
-                {
-                $size
-            }
-        }
-
-        ;
+        font-size: {{$size}};
     }
 </style>
 <!-- NAVBAR -->
@@ -125,7 +119,7 @@ if(strpos(Auth::user()->style,"normal")!==false){
                         </svg>
                     </a>
                     @if(session()->has('friendRequests'))
-                    <div class=" dropdown-menu dropdown-menu-right col-8 p-0 show" id="divfriendrequests">
+                    <div class="dropdown-menu dropdown-menu-right col-8 p-0 show" id="divfriendrequests">
                         <div class=" list-group rounded">
                             @forelse(session()->get('friendRequests') as $friendRequest)
                             <div class="list-group-item list-group-item-action">
@@ -166,6 +160,11 @@ if(strpos(Auth::user()->style,"normal")!==false){
                                 Sin solicitudes
                             </div>
                             @endforelse
+                            <div class="row justify-content-center my-2">
+                                <a href="{{route('friendRequest.allSent')}}" class="btn badge badge-{{$color}}">
+                                    Ver enviadas
+                                </a>
+                            </div>
                         </div>
                     </div>
                     @endif

@@ -21,4 +21,24 @@ class CommentController extends Controller
         $comment->save();
         return redirect()->back();
     }
+
+    public function delete($commentId){
+        if(Comment::where('id',$commentId)->delete()){
+            return redirect()->back()->with(
+                'success',
+                'Borrado correctamente'
+            );
+        }
+    }
+
+    public function edit(Request $request){
+        $commentId=$request->comment_id;
+        $comment=Comment::find($commentId);
+        $comment->content=$request->content;
+        $comment->save();
+        return redirect()->back()->with(
+            'success',
+            'Comentario actualizado.'
+        );
+    }
 }

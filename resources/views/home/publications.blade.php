@@ -60,9 +60,12 @@ if(strpos(Auth::user()->style,"classic")!==false){
                                 {{count(App\Comment::where('publication_id',$publication->id)->get())}} comentarios
                             </small>
                             @if($publication->user_id==Auth::id())
-                            <a href="{{route('publications.delete',$publication->id)}}" class="badge badge-danger">
+                            <!-- <a href="{{route('publications.delete',$publication->id)}}" class="badge badge-danger">
                                 Eliminar publicación
                             </a>
+                            <a href="{{route('publications.edit',$publication->id)}}" class="badge badge-warning">
+                                Editar publicación
+                            </a> -->
                             @endif
                             <a class="badge badge-{{$color}}" href="{{route('publications.index',$publication->id)}}"
                                 role="button">
@@ -80,4 +83,20 @@ if(strpos(Auth::user()->style,"classic")!==false){
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script>
+    $('.editPublication').click(function () {
+        let id = $(this).attr('id');
+        let content = $('#labelMessage' + id).attr('name')
+        if ($('#labelMessage' + id).hasClass('show')) {
+            $('#labelMessage' + id).removeClass('show')
+            $('#inputMessage' + id).addClass('show')
+            $('#inputMessage' + id + ' #messageNewContent').val(content)
+        } else {
+            $('#labelMessage' + id).addClass('show')
+            $('#inputMessage' + id).removeClass('show')
+        }
+    })
+</script>
 @endsection

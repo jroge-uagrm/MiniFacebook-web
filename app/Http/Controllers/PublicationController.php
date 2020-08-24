@@ -38,9 +38,19 @@ class PublicationController extends Controller
         $publication=Publication::find($publicationId);
         Comment::where('publication_id',$publicationId)->delete();
         $publication->delete();
-        return redirect()->back()->with(
+        return redirect()->route('home')->with(
             'success',
             'Eliminado correctamente'
+        );
+    }
+
+    public function edit(Request $request){
+        $publication=Publication::find($request->publication_id);
+        $publication->content=$request->content;
+        $publication->save();
+        return redirect()->back()->with(
+            'success',
+            'Publicacion actualizada.'
         );
     }
 }

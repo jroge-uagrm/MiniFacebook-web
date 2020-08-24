@@ -65,6 +65,18 @@ class FriendRequestController extends Controller
         );
     }
 
+    public function allSent(){
+        $friendRequests=FriendRequest::where([
+            ['requesting',Auth::user()->id]
+        ])->join('users','requested','users.id')
+        ->select(
+            'users.id',
+            'names',
+            'last_names'
+        )->get();
+        return view('friendRequest.index',compact('friendRequests'));
+    }
+
     public function accept($userId){
         if(FriendRequest::where([
             ['requesting',$userId],
@@ -114,6 +126,23 @@ class FriendRequestController extends Controller
             return redirect()->back()->with(
                 'success',
                 'Amigo rechazado.'
+            );
+        }else{
+            return redirect()->back()->with(
+                'error',
+                'No existe la solicitud.'
+            );
+        }
+    }
+
+    public function delete($userId){
+        if(FriendRequest::where([
+            ['requesting',Auth::id()],
+            ['requested',$userId],
+        ])->delete()){
+            return redirect()->back()->with(
+                'success',
+                'Solicitud eliminada correctamente.'
             );
         }else{
             return redirect()->back()->with(

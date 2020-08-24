@@ -36,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::get('friend_request/{userId}','FriendRequestController@send')->name('friend.request');
     Route::get('friend_delete/{userId}','ContactController@delete')->name('friend.delete');
     Route::get('friend_request_all_mine','FriendRequestController@allMine')->name('friendRequest.allMine');
+    Route::get('friend_request_all_sent','FriendRequestController@allSent')->name('friendRequest.allSent');
+    Route::get('friend_request_delete/{userId}','FriendRequestController@delete')->name('friendRequest.delete');
     Route::get('friend_request_accept/{userId}','FriendRequestController@accept')->name('friendRequest.accept');
     Route::get('friend_request_reject/{userId}','FriendRequestController@reject')->name('friendRequest.reject');
 
@@ -49,7 +51,10 @@ Route::middleware('auth')->group(function () {
     Route::get('publications/{publicationId}','PublicationController@index')->name('publications.index');
     Route::post('publications','PublicationController@create')->name('publications.new');
     Route::get('publications_delete/{publicationId}','PublicationController@delete')->name('publications.delete');
+    Route::post('publications_edit','PublicationController@edit')->name('publications.edit');
 
     Route::post('comments','CommentController@create')->name('comments.new');
+    Route::get('comments_delete/{commentId}','CommentController@delete')->name('comments.delete');
+    Route::post('comments_edit','CommentController@edit')->name('comments.edit');
 
 });

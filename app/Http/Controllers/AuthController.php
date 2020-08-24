@@ -88,7 +88,7 @@ class AuthController extends Controller
             'user_b' => $user->id
         ]]);
         if (Auth::attempt(['email'=>$request->email,'password'=>$request->password])) {
-            return redirect()->route('home');
+            return redirect()->route('profile',$user->id);
         }
         return redirect()->route('authenticate');
     }
