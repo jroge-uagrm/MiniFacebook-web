@@ -39,6 +39,7 @@ class ChatController extends Controller
         ->join('users','users.id','invited')
         ->join('messages','messages.chat_id','chats.id')
         ->join('contacts','contacts.user_b','chats.invited')
+        ->where('users.role_id','<>','3')
         ->select(
             'users.id',
             'users.names',
@@ -49,6 +50,7 @@ class ChatController extends Controller
         ->join('users','users.id','creator')
         ->join('messages','messages.chat_id','chats.id')
         ->join('contacts','contacts.user_b','chats.creator')
+        ->where('users.role_id','<>','3')
         ->select(
             'users.id',
             'users.names',
