@@ -9,7 +9,7 @@ if(strpos(Auth::user()->style,"classic")!==false){
 }
 ?>
 <div class="container">
-    <div class="row ">
+    <div class="row">
         <div class="col">
             <div class="container">
                 <div class="row justify-content-between mb-2">
@@ -33,10 +33,10 @@ if(strpos(Auth::user()->style,"classic")!==false){
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row overflow-auto text-justify">
         <div class="col">
             <p id="oldContent" name="{{$publication->content}}"
-                class="form-control border border-dark rounded collapse show">
+                class="p-2 border border-dark rounded collapse show">
                 {{$publication->content}}
             </p>
             <form id="newContent" class="collapse" action="{{route('publications.edit')}}" method="post">
