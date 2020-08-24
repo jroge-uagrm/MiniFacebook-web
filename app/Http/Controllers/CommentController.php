@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Comment;
 use Carbon\Carbon;
+use App\Events\NewCommentInPublication;
 use Auth;
 
 class CommentController extends Controller
