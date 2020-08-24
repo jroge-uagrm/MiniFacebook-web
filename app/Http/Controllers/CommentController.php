@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Comment;
+use App\Publication;
 use Carbon\Carbon;
 use App\Events\NewCommentInPublication;
 use Auth;
