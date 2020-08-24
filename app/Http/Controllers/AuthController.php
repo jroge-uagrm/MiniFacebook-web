@@ -133,6 +133,9 @@ class AuthController extends Controller
             Comment::where('publication_id',$publication->id)->delete();
             $publication->delete();
         }
+        Comment::where('user_id',$user->id)->delete();
+        FriendRequest::where('requesting',$user->id)->delete();
+        FriendRequest::where('requested',$user->id)->delete();
         Auth::logout();
         return redirect()->route('authenticate')->with(
             'success',
