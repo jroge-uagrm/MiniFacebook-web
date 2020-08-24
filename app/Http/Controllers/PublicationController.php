@@ -19,7 +19,7 @@ class PublicationController extends Controller
         $comments=DB::table('users')
         ->join('comments','comments.user_id','users.id')
         ->where('comments.publication_id',$publication->id)
-        ->orderBy('created_at','asc')
+        ->orderBy('comments.created_at','asc')
         ->get();
         return view('publication.index',compact('publication','comments'));
     }
