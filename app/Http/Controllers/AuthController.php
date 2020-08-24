@@ -107,6 +107,10 @@ class AuthController extends Controller
         if (Auth::attempt(['email'=>$user->email,'password'=>$request->old_password])) {
             $user->password=bcrypt($request->password);
             $user->save();
+            return redirect()->back()->with(
+                'success',
+                'Contraseña cambiada correctamente.'
+            );
         }else{
             throw AuthController::newError("old_password","Contraseña incorrecta.");
         }

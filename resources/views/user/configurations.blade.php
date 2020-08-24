@@ -62,7 +62,7 @@ if(strpos(Auth::user()->style,"normal")!==false){
                 <div class="col">
                     <label>Sexo</label>
                     <select name="sex" class="form-control">
-                        @if(Auth::user()->sex=='M')
+                        @if(Auth::user()->sex=="M")
                         <option value="M" selected>Masculino</option>
                         <option value="F">Femenino</option>
                         @else

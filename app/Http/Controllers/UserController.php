@@ -62,6 +62,7 @@ class UserController extends Controller
             'email' => 'required|email',
             'color' => 'required',
             'font' => 'required',
+            'sex' => 'required',
         ]);
         if($request->phone_number){
             $request->validate([
