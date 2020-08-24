@@ -32,6 +32,9 @@ class CommentController extends Controller
     }
 
     public function edit(Request $request){
+        $request->validate([
+            'content' => 'required'
+        ]);
         $commentId=$request->comment_id;
         $comment=Comment::find($commentId);
         $comment->content=$request->content;

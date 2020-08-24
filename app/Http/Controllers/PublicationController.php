@@ -45,6 +45,9 @@ class PublicationController extends Controller
     }
 
     public function edit(Request $request){
+        $request->validate([
+            'content' => 'required'
+        ]);
         $publication=Publication::find($request->publication_id);
         $publication->content=$request->content;
         $publication->save();
