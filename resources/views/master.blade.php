@@ -90,8 +90,8 @@
     </button>
   </div>
   <div id="newComment" class="collapse alert alert-info alert-dismissible ml-3 mb-5 col-md-3 fixed-bottom" role="alert">
-    <strong id="namesUserCommenter"> ha comentado tu publicacion
-    </strong>
+    <strong id="namesUserCommenter"> 
+    </strong> ha comentado tu publicacion
     <div class="float-right">
       <a class="text-info font-weight-bold" id="hrefPublication" href="#">Ver</a>
     </div>
