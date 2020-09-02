@@ -62,12 +62,12 @@ if(strpos(Auth::user()->style,"normal")!==false){
                 <div class="col">
                     <label>Sexo</label>
                     <select name="sex" class="form-control">
-                        @if(Auth::user()->sex=="M")
+                        @if(strcmp(Auth::user()->sex,"M")==-1)
+                        <option value="F" selected>Femenino</option>
+                        <option value="M">Masculino</option>
+                        @else
                         <option value="M" selected>Masculino</option>
                         <option value="F">Femenino</option>
-                        @else
-                        <option value="M">Masculino</option>
-                        <option value="F" selected>Femenino</option>
                         @endif
                     </select>
                     {!!$errors->first('sex','<small class="text-danger font-weight-bold">:message</small>')!!}
