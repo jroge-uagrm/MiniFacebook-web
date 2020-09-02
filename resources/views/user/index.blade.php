@@ -103,7 +103,15 @@ if(strpos(Auth::user()->style,"classic")!==false){
                         </strong>
                     </div>
                     <div class="col text-left">
-                        {{$user->sex=='M'?'Masculino':'Femenino'}} {{gettype($user->sex)}} {{$user->sex==='M'?'Masculino':'Femenino'}} {{$user->sex=="M"?'Masculino':'Femenino'}} {{$user->sex==="M"?'Masculino':'Femenino'}} {{$user->sex}}
+                        {{gettype($user->sex)}} 
+                        {{$user->sex =="M"?'Masculino':'Femenino'}} 
+                        {{$user->sex==="M"?'Masculino':'Femenino'}} 
+                        {{$user->sex}}
+                        @if($user->sex==="M")
+                        Masculino
+                        @else
+                        Femenino
+                        @endif
                     </div>
                 </div>
                 <div class="row my-3 border-bottom border-muted">
