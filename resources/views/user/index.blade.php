@@ -107,6 +107,7 @@ if(strpos(Auth::user()->style,"classic")!==false){
                         {{$user->sex =="M"?'Masculino':'Femenino'}} 
                         {{$user->sex==="M"?'Masculino':'Femenino'}} 
                         {{$user->sex}}
+                        {{strcmp ( $user->sex , "M" )}}
                         @if($user->sex==="M")
                         Masculino
                         @else
